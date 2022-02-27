@@ -16,7 +16,7 @@ const NavBar = () => {
         <Link to='/'>Home</Link>
         <Link to='/app'>PegBoard App</Link>
         {venue ? <Link to='/venue-info'>Venue</Link> : <Link to='/login/venue'>Venue Login</Link>}
-        {user ? <Link to='/profile'>Profile</Link> : <Link to='/login/user'>Login/Register</Link>}
+        {user ? <Link to='/profile'>{user.first_name}'s Profile</Link> : <Link to='/login/user'>Login/Register</Link>}
       </div>
     </div>
   )

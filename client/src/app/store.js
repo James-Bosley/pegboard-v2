@@ -8,5 +8,5 @@ export const store = configureStore({
     games: gamesReducer,
     player: playerReducer,
     user: userReducer
-  },
+  }
 });

@@ -1,25 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+export const logInUser = createAsyncThunk(
+  'user/logIn',
+  async (input , thunkAPI) => {
+    const response = await fetch(`/api/user/${input.username}?password=${input.password}`);
+    const user = await response.json();
+    return user[0];
+  }
+);
 
 const initialState = {
-  user: null,
-  userType: null
+  user: null
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
-    logIn: (state, action) => {
-      //AUTH WITH API
-    },
     logOut: (state, action) => {
       state.user = null;
-      state.userType = null;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logInUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    })
   }
 });
 
-export const { logIn, logOut } = userSlice.actions;
+export const { logOut } = userSlice.actions;
 
 export const selectUser = state => state.user.user;
 
