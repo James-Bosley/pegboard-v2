@@ -1,5 +1,5 @@
 const express = require('express');
-const { uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const knex = require('../db/dbconfig');
 
@@ -15,10 +15,10 @@ userRouter.get('/:user', async (req, res) => {
     .select('first_name', 'last_name', 'email_address')
     .from('users')
   if(user) {
-    user.token = uuidv4();
-    user.tokenExpires = new Date() + 50000;
-    activeSessions.push(user)
-    res.status(200).json(user);
+    user[0].token = uuidv4();
+    user[0].tokenStart = Date.now();
+    activeSessions.push(user[0])
+    res.status(200).json(user[0]);
   } else {
     res.sendStatus(404);
   }

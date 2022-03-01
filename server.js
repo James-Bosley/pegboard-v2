@@ -1,9 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-//const path = require('path');
+const express = require("express");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+//const path = require("path");
 
-const userRouter = require('./routes/userRouter');
+const userRouter = require("./routes/userRouter");
 
 const app = express();
 
@@ -15,9 +15,9 @@ app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 
-app.use('/api/user', userRouter);
+app.use('/v1/users', userRouter);
 
-app.get('/api', async (req, res) => {
+app.get('/v1', async (req, res) => {
   res.json({message: 'Server is working.'});
 });
 

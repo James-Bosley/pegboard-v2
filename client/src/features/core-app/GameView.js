@@ -13,7 +13,7 @@ const GameView = () => {
       {!games.length > 0 ? <>No Games</> : games.map(game => {
         return <GameCard data={game} />
       })}
-      <button onClick={() => dispatch({ type: 'games/queueGame', payload: {id:5}})}>BUTTON</button>
+      <button onClick={() => dispatch({ type: 'game/queueGame', payload: {id:5}})}>BUTTON</button>
     </div>
   )
 }; 

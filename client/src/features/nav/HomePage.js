@@ -5,14 +5,14 @@ const HomePage = () => {
   const [message, setMessage] = useState('')
 
   useEffect(()=> {
-    fetch('/api')
+    fetch('/v1')
     .then((res) => res.json())
     .then((jsonres) => {
       setMessage(jsonres.message)})
-  })
+  });
 
   return (
-    <p>HOMEPAGE {message}</p>
+    <p>HOMEPAGE for PegBoard {message}</p>
   )
 };
 
