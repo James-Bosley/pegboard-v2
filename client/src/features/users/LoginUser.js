@@ -4,19 +4,18 @@ import { Navigate, Link } from "react-router-dom";
 import { logInUser, selectUser } from "../../components/user/userSlice";
 
 const LoginUser = () => {
-
   const user = useSelector(selectUser);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const handleChange = ({target}) => {
-    switch(target.name) {
-      case 'username':
+  const handleChange = ({ target }) => {
+    switch (target.name) {
+      case "username":
         setUsername(target.value);
         break;
-      case 'password':
+      case "password":
         setPassword(target.value);
         break;
       default:
@@ -24,30 +23,40 @@ const LoginUser = () => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(logInUser({ username: username, password: password }));
   };
-  
-  if(user) {
-    return (
-      <Navigate to='/profile' replace />
-    )
-  };
+
+  if (user) {
+    return <Navigate to="/profile" replace />;
+  }
 
   return (
     <div id="loginForm">
       <form onSubmit={handleSubmit}>
-        <label>Email:
-          <input type="text" name="username" onChange={handleChange} value={username}></input>
+        <label>
+          Email:
+          <input
+            type="text"
+            name="username"
+            onChange={handleChange}
+            value={username}
+          ></input>
         </label>
-        <label>Password:
-          <input type="password" name="password" onChange={handleChange} value={password}></input>
+        <label>
+          Password:
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            value={password}
+          ></input>
         </label>
         <button type="submit">Login</button>
       </form>
       <p>New to the site?</p>
-      <Link to='/register'>Register Here</Link>
+      <Link to="/register">Register Here</Link>
     </div>
   );
 };
