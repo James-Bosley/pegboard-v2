@@ -1,24 +1,23 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-//const path = require("path");
-
-const userRouter = require("./routes/userRouter");
+const path = require("path");
+const session = require("./session-config");
+const passport = require("./passport-config");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3001;
-
-//app.use(express.static(path.resolve(__dirname, './client/build')));
-
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 app.use(morgan("dev"));
-
 app.use(bodyParser.json());
 
-app.use("/v1/users", userRouter);
+app.use(session);
 
-app.get("/v1", async (req, res) => {
-  res.json({ message: "Server is working." });
-});
+app.use(passport.initialize());
+app.use(passport.session());
+
+const masterRouter = require("./routes/masterRouter");
+app.use("/v1", masterRouter);
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}.`));
