@@ -25,11 +25,11 @@ const LoginUser = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(logInUser({ username: username, password: password }));
+    dispatch(logInUser({ username, password }));
   };
 
   if (user) {
-    return <Navigate to="/profile" replace />;
+    return <Navigate to="/user/profile" replace />;
   }
 
   return (

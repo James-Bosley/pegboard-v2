@@ -1,17 +1,19 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const dbUsers = require("./db/db-query-user");
+const bcrypt = require("bcrypt");
 
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    dbUsers.findByUsername(username, (err, user) => {
+  new LocalStrategy((username, password, done) => {
+    dbUsers.findByUsername(username, async (err, user) => {
       if (err) {
         return done(err);
       }
       if (!user) {
         return done(null, false);
       }
-      if (user.password != password) {
+      const matchedPassword = await bcrypt.compare(password, user.password);
+      if (!matchedPassword) {
         return done(null, false);
       }
       return done(null, user);
@@ -31,3 +33,5 @@ passport.deserializeUser((id, done) => {
     return done(null, user);
   });
 });
+
+module.exports = passport;

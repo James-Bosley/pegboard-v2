@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const loadVenue = createAsyncThunk(
-  "game/loadVenue",
+export const loadSession = createAsyncThunk(
+  "game/loadSession",
   async (input, thunkAPI) => {
     return null;
   }
@@ -16,7 +16,7 @@ export const gameOver = createAsyncThunk(
 
 const initialState = {
   venue: null,
-  venueStatus: { loggedIn: false, message: null },
+  sessionStatus: { loggedIn: false, message: null },
   queue: [],
   inPlay: [],
   pendingUpload: [],
@@ -40,25 +40,25 @@ const gameSlice = createSlice({
       }
     },
 
-    removeVenue: (state, action) => {
+    endSession: (state, action) => {
       state.venue = null;
-      state.venueStatus.loggedIn = false;
+      state.sessionStatus.loggedIn = false;
       state.queue = [];
       state.inPlay = [];
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadVenue.pending, (state, action) => {
-      state.venueStatus.message = "Loading";
+    builder.addCase(loadSession.pending, (state, action) => {
+      state.sessionStatus.message = "Loading";
     });
 
-    builder.addCase(loadVenue.fulfilled, (state, action) => {
+    builder.addCase(loadSession.fulfilled, (state, action) => {
       state.venue = action.payload;
-      state.venueStatus.loggedIn = true;
+      state.sessionStatus.loggedIn = true;
     });
 
-    builder.addCase(loadVenue.rejected, (state, action) => {
-      state.venueStatus.message = "Authorization Failed";
+    builder.addCase(loadSession.rejected, (state, action) => {
+      state.sessionStatus.message = "Authorization Failed";
     });
 
     builder.addCase(gameOver.fulfilled, (state, action) => {
@@ -76,10 +76,10 @@ const gameSlice = createSlice({
   },
 });
 
-export const { queueGame, gameOn, removeVenue } = gameSlice.actions;
+export const { queueGame, gameOn, endSession } = gameSlice.actions;
 
 export const selectVenue = (state) => state.game.venue;
-export const selectVenueStatus = (state) => state.game.venueStatus;
+export const selectSessionStatus = (state) => state.game.sessionStatus;
 export const selectQueue = (state) => state.game.queue;
 export const selectInPlay = (state) => state.game.inPlay;
 

@@ -1,25 +1,37 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { selectUser } from "../../components/user/userSlice";
+import { logOutUser, selectUser } from "../../components/user/userSlice";
+import { selectSessionStatus } from "../../components/games/gamesSlice";
 
 const Profile = () => {
   const user = useSelector(selectUser);
+  const session = useSelector(selectSessionStatus);
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleAddToSession = () => {
+    dispatch({ type: "player/addplayer", payload: user.player });
+  };
+
+  const handleLogout = (e) => {
     e.preventDefault();
-    dispatch({ type: "user/logOut" });
+    dispatch(logOutUser());
   };
 
   if (!user) {
-    return <Navigate to="/login/user" replace />;
+    return <Navigate to="/user/login" replace />;
   }
 
   return (
     <div>
+      {session && user && !user.player.active_now ? (
+        <div>
+          <p>Add yourself to your session</p>
+          <button onClick={handleAddToSession}>Join Session</button>
+        </div>
+      ) : null}
       <p>This is a Profile.</p>
-      <button onClick={handleSubmit}>Logout</button>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };

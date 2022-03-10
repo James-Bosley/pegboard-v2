@@ -2,30 +2,30 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NewUserForm = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [email_address, setEmail] = useState("");
+  const [phone_number, setTelephone] = useState("");
+  const [date_of_birth, setBirthDate] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
     switch (target.name) {
-      case "firstName":
+      case "first_name":
         setFirstName(target.value);
         break;
-      case "lastName":
+      case "last_name":
         setLastName(target.value);
         break;
-      case "email":
+      case "email_address":
         setEmail(target.value);
         break;
-      case "telephone":
+      case "phone_number":
         setTelephone(target.value);
         break;
-      case "birthDate":
+      case "date_of_birth":
         setBirthDate(target.value);
         break;
       case "password":
@@ -36,33 +36,37 @@ const NewUserForm = () => {
     }
   };
 
-  const formBundler = () => {
-    return {
-      first_name: firstName,
-      last_name: lastName,
-      email_address: email,
-      phone_number: telephone,
-      date_of_birth: birthDate,
-      password: password,
+  const userTemplate = () => {
+    const newUser = {
+      first_name,
+      last_name,
+      email_address,
+      phone_number,
+      date_of_birth,
+      password,
+      member_since: new Date(),
     };
+    return newUser;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const bodyData = formBundler();
-    const response = await fetch(`/api/user`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bodyData),
-    });
-    if (response.ok) {
-      alert("Success! Please login to continue.");
-      navigate("/login/user");
-    } else {
-      alert("Error");
+    const bodyData = userTemplate();
+    if (bodyData) {
+      const response = await fetch(`/v1/user/register`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
+      });
+      if (response.status === 201) {
+        alert("Success! Please login to continue.");
+        navigate("/user/login");
+      } else {
+        alert("Error");
+      }
     }
   };
 
@@ -74,45 +78,51 @@ const NewUserForm = () => {
           First Name:
           <input
             type="text"
-            name="firstName"
+            name="first_name"
             onChange={handleChange}
-            value={firstName}
+            value={first_name}
+            required
+            autoFocus
           ></input>
         </label>
         <label>
           Last Name:
           <input
             type="text"
-            name="lastName"
+            name="last_name"
             onChange={handleChange}
-            value={lastName}
+            value={last_name}
+            required
           ></input>
         </label>
         <label>
           Email Address:
           <input
             type="text"
-            name="email"
+            name="email_address"
             onChange={handleChange}
-            value={email}
+            value={email_address}
+            required
           ></input>
         </label>
         <label>
           Phone Number:
           <input
             type="text"
-            name="telephone"
+            name="phone_number"
             onChange={handleChange}
-            value={telephone}
+            value={phone_number}
+            required
           ></input>
         </label>
         <label>
           Date of Birth:
           <input
             type="date"
-            name="birthDate"
+            name="date_of_birth"
             onChange={handleChange}
-            value={birthDate}
+            value={date_of_birth}
+            required
           ></input>
         </label>
         <label>
@@ -122,6 +132,7 @@ const NewUserForm = () => {
             name="password"
             onChange={handleChange}
             value={password}
+            required
           ></input>
         </label>
         <button type="submit">Submit</button>
