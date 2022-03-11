@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Link } from "react-router-dom";
-import { logInUser, selectUser } from "../../components/user/userSlice";
+import {
+  checkUserSession,
+  logInUser,
+  selectUser,
+} from "../../components/user/userSlice";
 
 const LoginUser = () => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(checkUserSession());
+    }
+  }, [user, dispatch]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
 
   const handleChange = ({ target }) => {
     switch (target.name) {

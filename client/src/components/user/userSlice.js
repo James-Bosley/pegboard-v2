@@ -1,5 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+export const checkUserSession = createAsyncThunk(
+  "user/checkSession",
+  async (input, thunkAPI) => {
+    const response = await fetch(`/v1/user/checksession`);
+    if (response === 401) {
+      return 401;
+    }
+    const user = await response.json();
+    return user;
+  }
+);
+
 export const logInUser = createAsyncThunk(
   "user/logIn",
   async (input, thunkAPI) => {
@@ -11,6 +23,9 @@ export const logInUser = createAsyncThunk(
         password: input.password,
       }),
     });
+    if (response === 401) {
+      return 401;
+    }
     const user = await response.json();
     return user;
   }
@@ -34,14 +49,24 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(checkUserSession.fulfilled, (state, action) => {
+      if (action.payload !== 401) {
+        state.user = action.payload;
+        state.loggedInStatus.loggedIn = true;
+        state.loggedInStatus.message = null;
+      }
+    });
+
     builder.addCase(logInUser.pending, (state, action) => {
       state.loggedInStatus.message = "Loading";
     });
 
     builder.addCase(logInUser.fulfilled, (state, action) => {
-      state.user = action.payload;
-      state.loggedInStatus.loggedIn = true;
-      state.loggedInStatus.message = null;
+      if (action.payload !== 401) {
+        state.user = action.payload;
+        state.loggedInStatus.loggedIn = true;
+        state.loggedInStatus.message = null;
+      }
     });
 
     builder.addCase(logInUser.rejected, (state, action) => {

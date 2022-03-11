@@ -3,7 +3,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const loadSession = createAsyncThunk(
   "game/loadSession",
   async (input, thunkAPI) => {
-    return null;
+    const response = await fetch(`/v1/session/activate/${input}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_active: true }),
+    });
+    if (response !== 500) {
+      const session = await response.json();
+      return session;
+    }
+    return false;
   }
 );
 
@@ -14,9 +23,29 @@ export const gameOver = createAsyncThunk(
   }
 );
 
+export const endSession = createAsyncThunk(
+  "game/endSession",
+  async (input, thunkAPI) => {
+    const response = await fetch(`/v1/session/activate/${input}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_active: false }),
+    });
+    if (response.status === 200) {
+      return true;
+    }
+    return false;
+  }
+);
+
 const initialState = {
-  venue: null,
-  sessionStatus: { loggedIn: false, message: null },
+  sessionStatus: {
+    active: false,
+    message: null,
+    id: null,
+    name: null,
+    courts: 0,
+  },
   queue: [],
   inPlay: [],
   pendingUpload: [],
@@ -33,18 +62,11 @@ const gameSlice = createSlice({
     gameOn: (state) => {
       if (
         state.queue.length > 0 &&
-        state.inPlay.length < state.venue.maxCourts
+        state.inPlay.length < state.sessionStatus.courts
       ) {
         const game = state.queue.shift();
         state.inPlay.push(game);
       }
-    },
-
-    endSession: (state, action) => {
-      state.venue = null;
-      state.sessionStatus.loggedIn = false;
-      state.queue = [];
-      state.inPlay = [];
     },
   },
   extraReducers: (builder) => {
@@ -53,8 +75,15 @@ const gameSlice = createSlice({
     });
 
     builder.addCase(loadSession.fulfilled, (state, action) => {
-      state.venue = action.payload;
-      state.sessionStatus.loggedIn = true;
+      if (action.payload !== 500) {
+        console.log(action.payload);
+        state.sessionStatus.active = true;
+        state.sessionStatus.name = action.payload.name;
+        state.sessionStatus.id = action.payload.id;
+        state.sessionStatus.courts = action.payload.courts;
+      } else {
+        state.sessionStatus.message = "Server Error";
+      }
     });
 
     builder.addCase(loadSession.rejected, (state, action) => {
@@ -73,12 +102,20 @@ const gameSlice = createSlice({
         (game) => game.id !== action.payload.id
       );
     });
+
+    builder.addCase(endSession.fulfilled, (state, action) => {
+      state.sessionStatus.active = false;
+      state.sessionStatus.name = null;
+      state.sessionStatus.id = null;
+      state.sessionStatus.courts = 0;
+      state.queue = [];
+      state.inPlay = [];
+    });
   },
 });
 
-export const { queueGame, gameOn, endSession } = gameSlice.actions;
+export const { queueGame, gameOn } = gameSlice.actions;
 
-export const selectVenue = (state) => state.game.venue;
 export const selectSessionStatus = (state) => state.game.sessionStatus;
 export const selectQueue = (state) => state.game.queue;
 export const selectInPlay = (state) => state.game.inPlay;

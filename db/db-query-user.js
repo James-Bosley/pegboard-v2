@@ -6,7 +6,7 @@ const userQueries = {
   findByUsername: async (username, callback) => {
     try {
       const user = await db("users")
-        .select("id", "password")
+        .select()
         .where({ email_address: username });
       if (user.length > 0) {
         return callback(null, user[0]);
@@ -18,9 +18,7 @@ const userQueries = {
   },
   findById: async (id, callback) => {
     try {
-      const user = await db("users")
-        .select("id", "email_address")
-        .where({ id: id });
+      const user = await db("users").select().where({ id: id });
       if (user.length > 0) {
         return callback(null, user[0]);
       }
@@ -65,21 +63,18 @@ const userQueries = {
 
       const playerData = await db("users")
         .join("players", "users.id", "=", "players.user_id")
-        .select("players.id", "players.display_name", "players.active_now")
+        .select(
+          "players.id",
+          "players.display_name",
+          "players.gender",
+          "players.handedness",
+          "players.active_now"
+        )
         .where({ "users.id": userId });
       user.player = playerData[0];
 
-      return user;
-    } catch (err) {
-      console.log(err);
-      return 500;
-    }
-  },
-};
-
-module.exports = userQueries;
-
-/*
+      const sessionData = await db("users")
+        .join("players", "users.id", "=", "players.user_id")
         .join(
           "sessions_players",
           "players.id",
@@ -87,8 +82,38 @@ module.exports = userQueries;
           "sessions_players.player_id"
         )
         .join("sessions", "sessions_players.session_id", "=", "sessions.id")
+        .select(
+          "sessions.id",
+          "sessions.name",
+          "sessions.venue_id",
+          "sessions.session_active"
+        )
+        .where({ "users.id": userId });
+      user.sessions = sessionData;
 
-   
-          "sessions.id as session_id",
-          "sessions.name as session_name",
-          "sessions.session_active"*/
+      if (user.info.access_level === "session_rep") {
+        const repData = await db("users")
+          .join(
+            "sessions_admin_users",
+            "users.id",
+            "=",
+            "sessions_admin_users.user_id"
+          )
+          .join(
+            "sessions",
+            "sessions_admin_users.session_id",
+            "=",
+            "sessions.id"
+          )
+          .select("sessions.id", "sessions.name", "sessions.session_active")
+          .where({ "users.id": userId });
+        user.rep = repData;
+      }
+      return user;
+    } catch (err) {
+      return 500;
+    }
+  },
+};
+
+module.exports = userQueries;
