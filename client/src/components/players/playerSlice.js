@@ -9,7 +9,17 @@ const playerSlice = createSlice({
   initialState: initialState,
   reducers: {
     addPlayer: (state, action) => {
+      let newPlayer = action.payload;
+      newPlayer.selected = false;
       state.players.push(action.payload);
+    },
+    selectedPlayer: (state, action) => {
+      state.players = state.players.map((player) => {
+        if (player.id === action.payload) {
+          return (player.selected = true);
+        }
+        return player;
+      });
     },
     removePlayer: (state, action) => {
       state.players = state.players.filter((player) => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import {
@@ -6,17 +6,13 @@ import {
   loadSession,
   selectSessionStatus,
 } from "../../components/games/gamesSlice";
-import { checkUserSession, selectUser } from "../../components/user/userSlice";
+import { selectUser } from "../../components/user/userSlice";
 
 const Session = () => {
   const user = useSelector(selectUser);
   const session = useSelector(selectSessionStatus);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(checkUserSession());
-  }, [session, dispatch]);
 
   const handleActivate = ({ target }) => {
     dispatch(loadSession(target.value));
