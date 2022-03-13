@@ -1,8 +1,8 @@
 import React from "react";
 
 const PlayerCard = ({ data }) => {
-  const handleDragStart = (e) => {
-    console.log(e);
+  const handleDragStart = (e, id) => {
+    console.log(e, id);
   };
 
   const style = () => {
@@ -13,7 +13,11 @@ const PlayerCard = ({ data }) => {
     }
   };
   return (
-    <div style={style()} draggable onDragStart={handleDragStart}>
+    <div
+      style={style()}
+      draggable
+      onDragStart={(e) => handleDragStart(e, data.id)}
+    >
       <p>{data.display_name}</p>
     </div>
   );

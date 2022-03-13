@@ -8,7 +8,7 @@ const AppShell = () => {
 
   return (
     <div>
-      <p>{session.name}</p>
+      <h3>{session.name}</h3>
       <Link to="select">Game Selection</Link>
       <Link to="waiting">Games Waiting</Link>
       <Link to="playing">Games In Play</Link>

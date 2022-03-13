@@ -1,63 +1,180 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { selectSessionStatus } from "../../components/games/gamesSlice";
 import { selectPlayers } from "../../components/players/playerSlice";
-import PlayerCard from "./PlayerCard";
+import { v4 } from "uuid";
 
 const SelectView = () => {
-  const loadPlayers = useSelector(selectPlayers);
+  let players = useSelector(selectPlayers);
+  const session = useSelector(selectSessionStatus);
+
   const dispatch = useDispatch();
 
-  const availaiblePlayers = loadPlayers.filter((player) => !player.selected);
+  players = players.slice(0, 8);
 
-  const playerState = [
-    { state: "Players to Select", players: availaiblePlayers },
-    { state: "Pair One", players: [] },
-    { state: "Pair Two", players: [] },
-  ];
+  const [pairA, setPairA] = useState([]);
+  const [pairB, setPairB] = useState([]);
 
-  const [players, setPlayers] = useState(playerState);
+  const dragItem = useRef();
 
-  const style = (gender) => {
-    if (gender === "M") {
-      return { backgroundColor: "lightblue" };
+  const style = (player, env) => {
+    let styles = {};
+    if ((pairA.includes(player) || pairB.includes(player)) && env === "queue") {
+      styles = { ...styles, opacity: "50%" };
+    }
+    if (player.gender === "M") {
+      styles = { ...styles, backgroundColor: "lightblue" };
     } else {
-      return { backgroundColor: "pink" };
+      styles = { ...styles, backgroundColor: "pink" };
+    }
+    return styles;
+  };
+
+  const handleDraggable = (id) => {
+    if (pairA.includes(id) || pairB.includes(id)) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleDragStart = (e, player_id) => {
+    dragItem.current = player_id;
+  };
+
+  const handleDragEnter = ({ target }) => {
+    const targetPlayer = players.filter(
+      (plr) => plr.id === dragItem.current
+    )[0];
+    switch (target.className) {
+      case "pairA":
+        if (
+          !pairA.includes(targetPlayer) &&
+          !pairB.includes(targetPlayer) &&
+          pairA.length < 3
+        ) {
+          setPairA((state) => [...state, targetPlayer]);
+        }
+        if (
+          !pairA.includes(targetPlayer) &&
+          pairB.includes(targetPlayer) &&
+          pairA.length < 3
+        ) {
+          setPairB((state) =>
+            state.filter((player) => player !== targetPlayer)
+          );
+          setPairA((state) => [...state, targetPlayer]);
+        }
+        break;
+      case "pairB":
+        if (
+          !pairA.includes(targetPlayer) &&
+          !pairB.includes(targetPlayer) &&
+          pairB.length < 3
+        ) {
+          setPairB((state) => [...state, targetPlayer]);
+        }
+        if (
+          !pairB.includes(targetPlayer) &&
+          pairA.includes(targetPlayer) &&
+          pairB.length < 3
+        ) {
+          setPairA((state) =>
+            state.filter((player) => player !== targetPlayer)
+          );
+          setPairB((state) => [...state, targetPlayer]);
+        }
+        break;
+      case "queue":
+        if (pairA.includes(targetPlayer)) {
+          setPairA((state) =>
+            state.filter((player) => player !== targetPlayer)
+          );
+        }
+        if (pairB.includes(targetPlayer)) {
+          setPairB((state) =>
+            state.filter((player) => player !== targetPlayer)
+          );
+        }
+        break;
+      default:
+        return null;
     }
   };
 
-  const handleDragStart = (e) => {
-    console.log("Dragging");
-  };
-
   const handleGameAdd = () => {
-    dispatch({ type: "game/queueGame", payload: { id: 5 } });
+    let game = {};
+    if (pairA.length === pairB.length && pairA.length > 0) {
+      game.id = v4();
+      game.pairA = pairA;
+      game.pairB = pairB;
+      game.session_id = session.id;
+      game.status = "pending";
+      game.selected_by = players[0].id;
+      game.time_started = new Date();
+    }
+    dispatch({ type: "game/queueGame", payload: game });
+    [...pairA, ...pairB].map((player) => {
+      return dispatch({ type: "player/selectPlayer", payload: player });
+    });
     dispatch({ type: "game/gameOn" });
+    setPairA([]);
+    setPairB([]);
   };
 
   return (
     <div>
-      <p>Drag players to the gamebuilder to choose a game.</p>
-      <div>
-        {players.map((cat) => {
-          return (
-            <div key={cat.state}>
-              <h3>{cat.state}</h3>
-              {cat.players.map((player) => {
+      {!players.length > 0 ? (
+        <p>Add players to begin choosing games</p>
+      ) : (
+        <div>
+          <p>{players[0].display_name} to choose next game.</p>
+          <div className="queue" onDragEnter={handleDragEnter}>
+            {players.map((player) => {
+              return (
+                <div
+                  draggable={handleDraggable(player)}
+                  style={style(player, "queue")}
+                  onDragStart={(e) => handleDragStart(e, player.id)}
+                >
+                  {player.display_name}
+                </div>
+              );
+            })}
+          </div>
+          <div>
+            <p>Drop players here</p>
+            <div className="pairA" onDragEnter={handleDragEnter}>
+              <p className="pairA">Pair A</p>
+              {pairA.map((player) => {
                 return (
                   <div
-                    key={player.id}
-                    style={style(player.gender)}
                     draggable
-                    onDragStart={handleDragStart}
+                    style={style(player)}
+                    onDragStart={(e) => handleDragStart(e, player.id)}
                   >
-                    <p>{player.display_name}</p>
+                    {player.display_name}
                   </div>
                 );
               })}
             </div>
-          );
-        })}
-      </div>
+            <div className="pairB" onDragEnter={handleDragEnter}>
+              <p className="pairB">Pair B</p>
+              {pairB.map((player) => {
+                return (
+                  <div
+                    draggable
+                    style={style(player)}
+                    onDragStart={(e) => handleDragStart(e, player.id)}
+                  >
+                    {player.display_name}
+                  </div>
+                );
+              })}
+            </div>
+            <button onClick={handleGameAdd}>Submit Game</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

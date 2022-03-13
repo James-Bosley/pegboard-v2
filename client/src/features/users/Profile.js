@@ -3,16 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { logOutUser, selectUser } from "../../components/user/userSlice";
 import { selectSessionStatus } from "../../components/games/gamesSlice";
-import { selectPlayers } from "../../components/players/playerSlice";
+import {
+  selectPlayers,
+  selectSelectedPlayers,
+} from "../../components/players/playerSlice";
 
 const Profile = () => {
   const user = useSelector(selectUser);
   const session = useSelector(selectSessionStatus);
   const players = useSelector(selectPlayers);
+  const selectedPlayers = useSelector(selectSelectedPlayers);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [eligible, setEligable] = useState(false);
+  const [eligible, setEligible] = useState(false);
 
   useEffect(() => {
     if (user && user.player) {
@@ -23,17 +27,20 @@ const Profile = () => {
         const checkArray = players.filter(
           (player) => player.id === user.player.id
         );
+        checkArray.push(
+          selectedPlayers.filter((player) => player.id === user.player.id)
+        );
         if (checkArray.length === 0) {
-          return setEligable(true);
+          return setEligible(true);
         }
       }
     }
-    setEligable(false);
-  }, [user, players, session]);
+    setEligible(false);
+  }, [user, players, selectedPlayers, session]);
 
   const handleAddToSession = () => {
     dispatch({ type: "player/addPlayer", payload: user.player });
-    navigate("/app");
+    navigate("/app/select");
   };
 
   const handleRemoveFromSession = () => {
@@ -66,7 +73,7 @@ const Profile = () => {
           <button onClick={handleAddToSession}>Join Session</button>
         </div>
       ) : null}
-      {eligible ? (
+      {players.includes(user.player) ? (
         <div>
           <p>Remove yourself from the session</p>
           <button onClick={handleRemoveFromSession}>Leave Session</button>
