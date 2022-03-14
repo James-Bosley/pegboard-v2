@@ -11,6 +11,7 @@ const SelectView = () => {
   const dispatch = useDispatch();
 
   players = players.slice(0, 8);
+  players = players.filter((plr) => plr !== null);
 
   const [pairA, setPairA] = useState([]);
   const [pairB, setPairB] = useState([]);
@@ -18,6 +19,7 @@ const SelectView = () => {
   const dragItem = useRef();
 
   const style = (player, env) => {
+    console.log(players);
     let styles = {};
     if ((pairA.includes(player) || pairB.includes(player)) && env === "queue") {
       styles = { ...styles, opacity: "50%" };
@@ -108,17 +110,18 @@ const SelectView = () => {
       game.pairA = pairA;
       game.pairB = pairB;
       game.session_id = session.id;
-      game.status = "pending";
-      game.selected_by = players[0].id;
-      game.time_started = new Date();
+      game.game_status = "pending";
+      game.selected_by_player_id = players[0].id;
+      game.time_created = JSON.stringify(new Date());
+
+      dispatch({ type: "game/queueGame", payload: game });
+      [...pairA, ...pairB].map((player) => {
+        return dispatch({ type: "player/selectPlayer", payload: player });
+      });
+      dispatch({ type: "game/gameOn" });
+      setPairA([]);
+      setPairB([]);
     }
-    dispatch({ type: "game/queueGame", payload: game });
-    [...pairA, ...pairB].map((player) => {
-      return dispatch({ type: "player/selectPlayer", payload: player });
-    });
-    dispatch({ type: "game/gameOn" });
-    setPairA([]);
-    setPairB([]);
   };
 
   return (
@@ -132,6 +135,7 @@ const SelectView = () => {
             {players.map((player) => {
               return (
                 <div
+                  key={player.id}
                   draggable={handleDraggable(player)}
                   style={style(player, "queue")}
                   onDragStart={(e) => handleDragStart(e, player.id)}
@@ -148,6 +152,7 @@ const SelectView = () => {
               {pairA.map((player) => {
                 return (
                   <div
+                    key={player.id}
                     draggable
                     style={style(player)}
                     onDragStart={(e) => handleDragStart(e, player.id)}
@@ -162,6 +167,7 @@ const SelectView = () => {
               {pairB.map((player) => {
                 return (
                   <div
+                    key={player.id}
                     draggable
                     style={style(player)}
                     onDragStart={(e) => handleDragStart(e, player.id)}

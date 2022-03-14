@@ -52,7 +52,7 @@ const Session = () => {
           {user.rep.map((repSession) => {
             if (!repSession.session_active) {
               return (
-                <label>
+                <label key={repSession.id}>
                   {repSession.name}
                   <button onClick={handleActivate} value={repSession.id}>
                     Start Session

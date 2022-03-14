@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { logOutUser, selectUser } from "../../components/user/userSlice";
 import { selectSessionStatus } from "../../components/games/gamesSlice";
 import {
@@ -14,7 +14,6 @@ const Profile = () => {
   const players = useSelector(selectPlayers);
   const selectedPlayers = useSelector(selectSelectedPlayers);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [eligible, setEligible] = useState(false);
 
@@ -27,11 +26,13 @@ const Profile = () => {
         const checkArray = players.filter(
           (player) => player.id === user.player.id
         );
-        checkArray.push(
-          selectedPlayers.filter((player) => player.id === user.player.id)
-        );
         if (checkArray.length === 0) {
-          return setEligible(true);
+          const checkArray = selectedPlayers.filter(
+            (player) => player.id === user.player.id
+          );
+          if (checkArray.length === 0) {
+            return setEligible(true);
+          }
         }
       }
     }
@@ -40,7 +41,6 @@ const Profile = () => {
 
   const handleAddToSession = () => {
     dispatch({ type: "player/addPlayer", payload: user.player });
-    navigate("/app/select");
   };
 
   const handleRemoveFromSession = () => {
@@ -69,13 +69,13 @@ const Profile = () => {
       ) : null}
       {session.active && eligible ? (
         <div>
-          <p>Add yourself to the current session</p>
+          <p>Add yourself to the current session - {session.name}</p>
           <button onClick={handleAddToSession}>Join Session</button>
         </div>
       ) : null}
       {players.includes(user.player) ? (
         <div>
-          <p>Remove yourself from the session</p>
+          <p>Remove yourself from {session.name}</p>
           <button onClick={handleRemoveFromSession}>Leave Session</button>
         </div>
       ) : null}

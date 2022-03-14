@@ -12,14 +12,20 @@ export const loadSession = createAsyncThunk(
       const session = await response.json();
       return session;
     }
-    return false;
+    return input.id;
   }
 );
 
 export const gameOver = createAsyncThunk(
   "game/gameOver",
   async (input, thunkAPI) => {
-    return null;
+    const response = await fetch(`/v1/game`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
+    const game = await response.json();
+    return game;
   }
 );
 
@@ -65,6 +71,8 @@ const gameSlice = createSlice({
         state.inPlay.length < state.sessionStatus.courts
       ) {
         const game = state.queue.shift();
+        game.time_started = JSON.stringify(new Date());
+        game.game_status = "in play";
         state.inPlay.push(game);
       }
     },
@@ -76,7 +84,6 @@ const gameSlice = createSlice({
 
     builder.addCase(loadSession.fulfilled, (state, action) => {
       if (action.payload !== 500) {
-        console.log(action.payload);
         state.sessionStatus.active = true;
         state.sessionStatus.name = action.payload.name;
         state.sessionStatus.id = action.payload.id;
@@ -91,16 +98,13 @@ const gameSlice = createSlice({
     });
 
     builder.addCase(gameOver.fulfilled, (state, action) => {
-      state.inPlay = state.inPlay.filter(
-        (game) => game.id !== action.payload.id
-      );
+      state.inPlay = state.inPlay.filter((game) => game.id !== action.payload);
     });
 
     builder.addCase(gameOver.rejected, (state, action) => {
-      state.pendingUpload.push(action.payload);
-      state.inPlay = state.inPlay.filter(
-        (game) => game.id !== action.payload.id
-      );
+      const game = state.inPlay.filter((game) => game.id === action.payload)[0];
+      state.pendingUpload.push(game);
+      state.inPlay = state.inPlay.filter((game) => game.id !== action.payload);
     });
 
     builder.addCase(endSession.fulfilled, (state, action) => {

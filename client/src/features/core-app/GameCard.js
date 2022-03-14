@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import ScoreCard from "./ScoreCard";
 
 const GameCard = (props) => {
+  const [gameComplete, setGameComplete] = useState(false);
+
+  const handleGameEnd = () => {
+    setGameComplete(true);
+  };
+
   const playerStyle = (gender) => {
     if (gender === "M") {
       return { backgroundColor: "lightblue" };
@@ -11,7 +18,6 @@ const GameCard = (props) => {
 
   return (
     <div className="gameCard">
-      <p>This is game {props.data.id}</p>
       {props.data.pairA.map((player) => {
         return (
           <p key={player.id} style={playerStyle(player.gender)}>
@@ -19,6 +25,7 @@ const GameCard = (props) => {
           </p>
         );
       })}
+      <p>- vs -</p>
       {props.data.pairB.map((player) => {
         return (
           <p key={player.id} style={playerStyle(player.gender)}>
@@ -26,7 +33,10 @@ const GameCard = (props) => {
           </p>
         );
       })}
-      {props.enableScore ? <div>SCORES</div> : null}
+      {props.enableScore ? (
+        <button onClick={handleGameEnd}>Game Complete</button>
+      ) : null}
+      {gameComplete ? <ScoreCard data={props.data} /> : null}
     </div>
   );
 };

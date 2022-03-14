@@ -12,6 +12,9 @@ masterRouter.use("/user", userRouter);
 const sessionRouter = require("./sessionRouter");
 masterRouter.use("/session", sessionRouter);
 
+const gameRouter = require("./gameRouter");
+masterRouter.use("/game", gameRouter);
+
 masterRouter.get("/error", (req, res) => {
   res.sendStatus(401);
 });

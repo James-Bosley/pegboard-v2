@@ -67,8 +67,7 @@ const userQueries = {
           "players.id",
           "players.display_name",
           "players.gender",
-          "players.handedness",
-          "players.active_now"
+          "players.handedness"
         )
         .where({ "users.id": userId });
       user.player = playerData[0];
