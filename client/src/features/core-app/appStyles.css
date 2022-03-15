@@ -1,0 +1,84 @@
+.app-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.app-title {
+  font-family: "Kanit", sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+
+.app-container .links {
+  width: 80%;
+  margin: 15px auto;
+}
+
+.app-link {
+  font-size: 20px;
+}
+
+.selectview-container {
+  position: relative;
+}
+
+.placeholder {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.queue-container {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.player-card {
+  text-align: center;
+  line-height: 100px;
+  margin: 5px;
+  min-height: 100px;
+  max-height: 100px;
+  min-width: 100px;
+  flex-grow: 1;
+  border-radius: 15px;
+}
+
+.dropzone-container {
+  display: flex;
+}
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: lightgrey;
+  min-height: 200px;
+  width: 45%;
+  margin: 0 auto;
+  padding: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.dropzone p {
+  padding: 5px;
+  margin: 0;
+}
+
+#select-button {
+  margin: 5px auto;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+#select-button:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px;
+}
+
+#select-button:active {
+  box-shadow: none;
+}

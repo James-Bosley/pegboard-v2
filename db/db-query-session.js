@@ -11,10 +11,10 @@ const sessionQueries = {
 
       const sessionDetail = await db("sessions")
         .join("clubs", "sessions.venue_id", "=", "clubs.id")
-        .select("number_of_courts")
+        .select("clubs.number_of_courts", "clubs.name as club_name")
         .where({ "sessions.id": session });
       newSession.courts = sessionDetail[0].number_of_courts;
-
+      newSession.club_name = sessionDetail[0].club_name;
       if (newSession.id) {
         return newSession;
       }

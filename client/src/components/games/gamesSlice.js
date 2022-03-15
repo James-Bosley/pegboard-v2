@@ -84,10 +84,12 @@ const gameSlice = createSlice({
 
     builder.addCase(loadSession.fulfilled, (state, action) => {
       if (action.payload !== 500) {
+        console.log(action.payload);
         state.sessionStatus.active = true;
         state.sessionStatus.name = action.payload.name;
         state.sessionStatus.id = action.payload.id;
         state.sessionStatus.courts = action.payload.courts;
+        state.sessionStatus.club_name = action.payload.club_name;
       } else {
         state.sessionStatus.message = "Server Error";
       }

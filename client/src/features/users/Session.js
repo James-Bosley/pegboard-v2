@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import {
@@ -6,13 +6,18 @@ import {
   loadSession,
   selectSessionStatus,
 } from "../../components/games/gamesSlice";
-import { selectUser } from "../../components/user/userSlice";
+import { selectUser, checkUserSession } from "../../components/user/userSlice";
 
 const Session = () => {
   const user = useSelector(selectUser);
   const session = useSelector(selectSessionStatus);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(checkUserSession());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleActivate = ({ target }) => {
     dispatch(loadSession(target.value));
@@ -21,6 +26,10 @@ const Session = () => {
 
   const handleDeactivate = ({ target }) => {
     dispatch(endSession(target.value));
+    dispatch({ type: "player/endSession" });
+    setTimeout(() => {
+      dispatch(checkUserSession());
+    });
   };
 
   if (!user) {

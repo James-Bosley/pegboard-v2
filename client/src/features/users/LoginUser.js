@@ -43,8 +43,8 @@ const LoginUser = () => {
   }
 
   return (
-    <div id="loginForm">
-      <form onSubmit={handleSubmit}>
+    <div className="login-form-container">
+      <form onSubmit={handleSubmit} className="login-form">
         <label>
           Email:
           <input
@@ -63,10 +63,14 @@ const LoginUser = () => {
             value={password}
           ></input>
         </label>
-        <button type="submit">Login</button>
+        <button className="form-button" type="submit">
+          Login
+        </button>
       </form>
       <p>New to the site?</p>
-      <Link to="/register">Register Here</Link>
+      <Link className="flow-link" to="/register">
+        Register Here
+      </Link>
     </div>
   );
 };

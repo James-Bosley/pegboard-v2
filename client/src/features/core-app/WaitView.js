@@ -9,7 +9,7 @@ const WaitView = () => {
   return (
     <div>
       {!games.length > 0 ? (
-        <p>No Games</p>
+        <p className="placeholder">No Games</p>
       ) : (
         games.map((game) => {
           return <GameCard key={game.id} data={game} />;

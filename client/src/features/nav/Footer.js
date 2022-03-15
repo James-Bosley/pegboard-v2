@@ -11,7 +11,7 @@ const Footer = () => {
       });
   });
 
-  return <p>This is a footer. {message}</p>;
+  return <p className="footer">This is a footer. {message}</p>;
 };
 
 export default Footer;

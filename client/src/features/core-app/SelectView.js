@@ -19,7 +19,6 @@ const SelectView = () => {
   const dragItem = useRef();
 
   const style = (player, env) => {
-    console.log(players);
     let styles = {};
     if ((pairA.includes(player) || pairB.includes(player)) && env === "queue") {
       styles = { ...styles, opacity: "50%" };
@@ -47,7 +46,7 @@ const SelectView = () => {
     const targetPlayer = players.filter(
       (plr) => plr.id === dragItem.current
     )[0];
-    switch (target.className) {
+    switch (target.dataset.dropvalue) {
       case "pairA":
         if (
           !pairA.includes(targetPlayer) &&
@@ -125,17 +124,23 @@ const SelectView = () => {
   };
 
   return (
-    <div>
+    <div className="outlet-container">
       {!players.length > 0 ? (
-        <p>Add players to begin choosing games</p>
+        <p className="placeholder">Add players to begin choosing games</p>
       ) : (
-        <div>
-          <p>{players[0].display_name} to choose next game.</p>
-          <div className="queue" onDragEnter={handleDragEnter}>
+        <div className="selectview-container">
+          <p>{players[0].display_name} to choose game from first 9 players</p>
+          <div
+            data-dropvalue="queue"
+            className="queue-container"
+            onDragEnter={handleDragEnter}
+          >
             {players.map((player) => {
               return (
                 <div
                   key={player.id}
+                  className="player-card"
+                  data-dropvalue="queue"
                   draggable={handleDraggable(player)}
                   style={style(player, "queue")}
                   onDragStart={(e) => handleDragStart(e, player.id)}
@@ -145,14 +150,20 @@ const SelectView = () => {
               );
             })}
           </div>
-          <div>
-            <p>Drop players here</p>
-            <div className="pairA" onDragEnter={handleDragEnter}>
-              <p className="pairA">Pair A</p>
+          <p>Drop players into their teams</p>
+          <div className="dropzone-container">
+            <div
+              data-dropvalue="pairA"
+              className="dropzone"
+              onDragEnter={handleDragEnter}
+            >
+              <p data-dropvalue="pairA">Side A</p>
               {pairA.map((player) => {
                 return (
                   <div
                     key={player.id}
+                    className="player-card"
+                    data-dropvalue="pairA"
                     draggable
                     style={style(player)}
                     onDragStart={(e) => handleDragStart(e, player.id)}
@@ -162,12 +173,18 @@ const SelectView = () => {
                 );
               })}
             </div>
-            <div className="pairB" onDragEnter={handleDragEnter}>
-              <p className="pairB">Pair B</p>
+            <div
+              data-dropvalue="pairB"
+              className="dropzone"
+              onDragEnter={handleDragEnter}
+            >
+              <p data-dropvalue="pairB">Side B</p>
               {pairB.map((player) => {
                 return (
                   <div
                     key={player.id}
+                    className="player-card"
+                    data-dropvalue="pairB"
                     draggable
                     style={style(player)}
                     onDragStart={(e) => handleDragStart(e, player.id)}
@@ -177,8 +194,10 @@ const SelectView = () => {
                 );
               })}
             </div>
-            <button onClick={handleGameAdd}>Submit Game</button>
           </div>
+          <button className="button" id="select-button" onClick={handleGameAdd}>
+            Submit Game
+          </button>
         </div>
       )}
     </div>

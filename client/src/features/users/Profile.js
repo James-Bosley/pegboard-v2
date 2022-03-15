@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { logOutUser, selectUser } from "../../components/user/userSlice";
+import {
+  checkUserSession,
+  logOutUser,
+  selectUser,
+} from "../../components/user/userSlice";
 import { selectSessionStatus } from "../../components/games/gamesSlice";
 import {
   selectPlayers,
@@ -16,6 +20,11 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const [eligible, setEligible] = useState(false);
+
+  useEffect(() => {
+    dispatch(checkUserSession());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (user && user.player) {
@@ -73,7 +82,7 @@ const Profile = () => {
           <button onClick={handleAddToSession}>Join Session</button>
         </div>
       ) : null}
-      {players.includes(user.player) ? (
+      {players.filter((player) => player.id === user.player.id).length > 0 ? (
         <div>
           <p>Remove yourself from {session.name}</p>
           <button onClick={handleRemoveFromSession}>Leave Session</button>

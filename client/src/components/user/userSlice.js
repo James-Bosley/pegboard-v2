@@ -4,7 +4,7 @@ export const checkUserSession = createAsyncThunk(
   "user/checkSession",
   async (input, thunkAPI) => {
     const response = await fetch(`/v1/user/checksession`);
-    if (response === 401) {
+    if (response.status === 401) {
       return 401;
     }
     const user = await response.json();
@@ -54,6 +54,10 @@ const userSlice = createSlice({
         state.user = action.payload;
         state.loggedInStatus.loggedIn = true;
         state.loggedInStatus.message = null;
+      } else {
+        state.user = null;
+        state.loggedInStatus.loggedIn = false;
+        state.loggedInStatus.message = "Session Expired";
       }
     });
 

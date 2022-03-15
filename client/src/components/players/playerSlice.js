@@ -35,10 +35,20 @@ const playerSlice = createSlice({
         return player.id !== action.payload.id;
       });
     },
+    endSession: (state, action) => {
+      state.players = [];
+      state.selectedPlayers = [];
+    },
   },
 });
 
-export const { addPlayer, removePlayer } = playerSlice.actions;
+export const {
+  addPlayer,
+  removePlayer,
+  selectPlayer,
+  deselectPlayer,
+  endSession,
+} = playerSlice.actions;
 
 export const selectPlayers = (state) => state.player.players;
 export const selectSelectedPlayers = (state) => state.player.selectedPlayers;
