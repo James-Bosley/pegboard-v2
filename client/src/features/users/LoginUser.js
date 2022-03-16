@@ -6,6 +6,7 @@ import {
   logInUser,
   selectUser,
 } from "../../components/user/userSlice";
+import "./userStyles.css";
 
 const LoginUser = () => {
   const user = useSelector(selectUser);
@@ -43,7 +44,7 @@ const LoginUser = () => {
   }
 
   return (
-    <div className="login-form-container">
+    <div className="app-container">
       <form onSubmit={handleSubmit} className="login-form">
         <label>
           Email:

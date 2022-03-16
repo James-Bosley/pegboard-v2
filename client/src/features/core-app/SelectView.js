@@ -51,14 +51,14 @@ const SelectView = () => {
         if (
           !pairA.includes(targetPlayer) &&
           !pairB.includes(targetPlayer) &&
-          pairA.length < 3
+          pairA.length < 2
         ) {
           setPairA((state) => [...state, targetPlayer]);
         }
         if (
           !pairA.includes(targetPlayer) &&
           pairB.includes(targetPlayer) &&
-          pairA.length < 3
+          pairA.length < 2
         ) {
           setPairB((state) =>
             state.filter((player) => player !== targetPlayer)
@@ -70,14 +70,14 @@ const SelectView = () => {
         if (
           !pairA.includes(targetPlayer) &&
           !pairB.includes(targetPlayer) &&
-          pairB.length < 3
+          pairB.length < 2
         ) {
           setPairB((state) => [...state, targetPlayer]);
         }
         if (
           !pairB.includes(targetPlayer) &&
           pairA.includes(targetPlayer) &&
-          pairB.length < 3
+          pairB.length < 2
         ) {
           setPairA((state) =>
             state.filter((player) => player !== targetPlayer)
@@ -195,7 +195,7 @@ const SelectView = () => {
               })}
             </div>
           </div>
-          <button className="button" id="select-button" onClick={handleGameAdd}>
+          <button className="select-button" onClick={handleGameAdd}>
             Submit Game
           </button>
         </div>

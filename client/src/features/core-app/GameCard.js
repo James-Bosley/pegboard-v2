@@ -4,8 +4,12 @@ import ScoreCard from "./ScoreCard";
 const GameCard = (props) => {
   const [gameComplete, setGameComplete] = useState(false);
 
-  const handleGameEnd = () => {
-    setGameComplete(true);
+  const toggleScorecard = () => {
+    if (!gameComplete) {
+      setGameComplete(true);
+    } else {
+      setGameComplete(false);
+    }
   };
 
   const playerStyle = (gender) => {
@@ -17,25 +21,45 @@ const GameCard = (props) => {
   };
 
   return (
-    <div className="gameCard">
-      {props.data.pairA.map((player) => {
-        return (
-          <p key={player.id} style={playerStyle(player.gender)}>
-            {player.display_name}
-          </p>
-        );
-      })}
-      <p>- vs -</p>
-      {props.data.pairB.map((player) => {
-        return (
-          <p key={player.id} style={playerStyle(player.gender)}>
-            {player.display_name}
-          </p>
-        );
-      })}
-      {props.enableScore ? (
-        <button onClick={handleGameEnd}>Game Complete</button>
-      ) : null}
+    <div className="game-card-container">
+      <div className="pair-container">
+        {props.data.pairA.map((player) => {
+          return (
+            <p
+              key={player.id}
+              className="player-card"
+              style={playerStyle(player.gender)}
+            >
+              {player.display_name}
+            </p>
+          );
+        })}
+      </div>
+      <div className="divider">
+        <p>- vs -</p>
+        {props.enableScore ? (
+          <button
+            onClick={toggleScorecard}
+            id="game-complete"
+            className="select-button"
+          >
+            Complete
+          </button>
+        ) : null}
+      </div>
+      <div className="pair-container">
+        {props.data.pairB.map((player) => {
+          return (
+            <p
+              key={player.id}
+              className="player-card"
+              style={playerStyle(player.gender)}
+            >
+              {player.display_name}
+            </p>
+          );
+        })}
+      </div>
       {gameComplete ? <ScoreCard data={props.data} /> : null}
     </div>
   );

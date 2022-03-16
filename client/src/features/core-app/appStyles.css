@@ -7,6 +7,13 @@
   font-family: "Kanit", sans-serif;
   font-size: 30px;
   text-align: center;
+  margin: 10px auto;
+}
+
+.app-sub-title {
+  font-family: "Kanit", sans-serif;
+  font-size: 22px;
+  margin: 0;
 }
 
 .app-container .links {
@@ -67,18 +74,70 @@
   margin: 0;
 }
 
-#select-button {
+.select-button {
+  display: block;
   margin: 5px auto;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
 }
 
-#select-button:hover {
-  cursor: pointer;
-  box-shadow: 1px 1px;
+.game-card-container {
+  width: 60%;
+  min-height: 100px;
+  padding: 8px;
+  margin: 10px auto;
+  border: 1px solid lightgray;
+  border-radius: 15px;
 }
 
-#select-button:active {
-  box-shadow: none;
+.pair-container {
+  display: inline-block;
+  vertical-align: top;
+  width: 40%;
+}
+
+.divider {
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+}
+
+.pair-container .player-card {
+  min-height: 75px;
+  max-height: 75px;
+  line-height: 75px;
+}
+
+.scorecard-container {
+  margin-top: 25px;
+  padding-bottom: 5px;
+}
+
+.scorecard-title {
+  text-align: center;
+  margin: 0;
+}
+
+.score-input-container {
+  width: 40%;
+  display: inline-block;
+}
+
+.score-divider {
+  width: 20%;
+  display: inline-block;
+}
+
+.score-input {
+  display: block;
+  width: 40%;
+  margin: 0 auto;
+  position: relative;
+  bottom: 20px;
+  height: 25px;
+  text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

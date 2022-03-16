@@ -30,4 +30,9 @@ userRouter.get("/checksession", ensureLoggedIn, async (req, res) => {
   res.json(userData);
 });
 
+userRouter.put("/player", ensureLoggedIn, async (req, res) => {
+  const playerData = await db.updatePlayer(req.body);
+  res.json(playerData);
+});
+
 module.exports = userRouter;

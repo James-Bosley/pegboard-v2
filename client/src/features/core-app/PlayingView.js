@@ -7,7 +7,7 @@ const PlayingView = () => {
   const games = useSelector(selectInPlay);
 
   return (
-    <div>
+    <div className="outlet-container">
       {!games.length > 0 ? (
         <p className="placeholder">No Games</p>
       ) : (

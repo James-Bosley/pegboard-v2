@@ -1,0 +1,32 @@
+.inline-paragraph {
+  display: inline-block;
+}
+
+.inline-button {
+  margin-left: 8px;
+}
+
+.sessions-list-container {
+  width: 20%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sessions-list-items {
+  margin: 5px auto;
+}
+
+.login-form {
+  width: 40%;
+  margin: 0 auto;
+}
+
+.login-form label {
+  display: block;
+  margin: 5px auto;
+}
+
+.login-form input {
+  margin-left: 8px;
+}

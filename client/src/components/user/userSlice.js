@@ -24,7 +24,7 @@ export const logInUser = createAsyncThunk(
       }),
     });
     if (response === 401) {
-      return 401;
+      return response;
     }
     const user = await response.json();
     return user;
@@ -36,6 +36,22 @@ export const logOutUser = createAsyncThunk(
   async (input, thunkAPI) => {
     const response = await fetch("/v1/user/logout");
     return response.status;
+  }
+);
+
+export const alterPlayer = createAsyncThunk(
+  "user/alterPlayer",
+  async (input, thunkAPI) => {
+    const response = await fetch("/v1/user/player", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
+    if (response === 500) {
+      return response;
+    }
+    const player = await response.json();
+    return player;
   }
 );
 
@@ -83,6 +99,12 @@ const userSlice = createSlice({
         state.loggedInStatus = { loggedIn: false, message: null };
       } else {
         state.loggedInStatus.message = "An Error Occurred";
+      }
+    });
+
+    builder.addCase(alterPlayer.fulfilled, (state, action) => {
+      if (action.payload !== 500) {
+        state.user.player = action.payload;
       }
     });
   },

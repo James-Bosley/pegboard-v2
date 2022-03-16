@@ -113,6 +113,21 @@ const userQueries = {
       return 500;
     }
   },
+  updatePlayer: async (newPlayer) => {
+    try {
+      const player = await db("players").where({ id: newPlayer.id }).update(
+        {
+          display_name: newPlayer.display_name,
+          gender: newPlayer.gender,
+          handedness: newPlayer.handedness,
+        },
+        ["*"]
+      );
+      return player[0];
+    } catch (err) {
+      return 500;
+    }
+  },
 };
 
 module.exports = userQueries;

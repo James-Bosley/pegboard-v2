@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { NavLink, Outlet } from "react-router-dom";
+import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { selectSessionStatus } from "../../components/games/gamesSlice";
 import "./appStyles.css";
 
@@ -9,11 +9,15 @@ const AppShell = () => {
 
   const activeStyle = { fontWeight: "bold" };
 
+  if (!session.active) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <div className="app-container">
-      <h3 className="app-title">
+      <h2 className="app-title">
         {session.name} @ {session.club_name}
-      </h3>
+      </h2>
       <div className="links">
         <NavLink
           className="nav-link app-link"

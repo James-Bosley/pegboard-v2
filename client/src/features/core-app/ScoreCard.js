@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { gameOver } from "../../components/games/gamesSlice";
 
 const ScoreCard = ({ data }) => {
-  const [pairAScore, setPairAScore] = useState(0);
-  const [pairBScore, setPairBScore] = useState(0);
+  const [pairAScore, setPairAScore] = useState();
+  const [pairBScore, setPairBScore] = useState();
 
   const dispatch = useDispatch();
 
@@ -54,39 +54,39 @@ const ScoreCard = ({ data }) => {
       delete gameData.pairA;
       delete gameData.pairB;
       dispatch(gameOver(gameData));
+      dispatch({ type: "game/gameOn" });
     } else {
       alert("Invalid Score");
     }
   };
 
   return (
-    <div>
-      <h3>Enter Scores</h3>
-      <div>
-        <p>
-          {data.pairA[0].display_name}
-          {data.pairA[1] ? <span>& {data.pairA[1].display_name}</span> : null}:
-        </p>
+    <div className="scorecard-container">
+      <div className="score-input-container">
         <input
+          className="score-input"
+          placeholder="Enter Score"
           type="number"
           name="pairA"
           onChange={handleChange}
           value={pairAScore}
         ></input>
       </div>
-      <div>
-        <p>
-          {data.pairB[0].display_name}
-          {data.pairB[1] ? <span>& {data.pairB[1].display_name}</span> : null}:
-        </p>
+      <div className="score-divider">
+        <button className="select-button" onClick={handleSubmitScore}>
+          Submit Score
+        </button>
+      </div>
+      <div className="score-input-container">
         <input
+          className="score-input"
+          placeholder="Enter Score"
           type="number"
           name="pairB"
           onChange={handleChange}
           value={pairBScore}
         ></input>
       </div>
-      <button onClick={handleSubmitScore}>Submit Score</button>
     </div>
   );
 };
