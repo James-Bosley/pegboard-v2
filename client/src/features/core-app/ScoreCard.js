@@ -51,6 +51,23 @@ const ScoreCard = ({ data }) => {
       }
       gameData.game_status = "complete";
       gameData.time_completed = JSON.stringify(new Date());
+
+      const idCheckItems = [
+        "player_id_win_1",
+        "player_id_win_2",
+        "player_id_lose_1",
+        "player_id_lose_2",
+        "selected_by_player_id",
+      ];
+
+      idCheckItems.map((id) => {
+        if (typeof gameData[id] === "string") {
+          gameData[id] = 0;
+          return null;
+        }
+        return null;
+      });
+
       delete gameData.pairA;
       delete gameData.pairB;
       dispatch(gameOver(gameData));

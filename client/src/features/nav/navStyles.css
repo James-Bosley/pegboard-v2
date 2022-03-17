@@ -27,6 +27,15 @@
   font-weight: bold;
 }
 
+.flow-link {
+  font-size: 18px;
+  color: black;
+}
+
+.flow-link:hover {
+  font-weight: bold;
+}
+
 .footer {
   margin-top: 100px;
   text-align: center;

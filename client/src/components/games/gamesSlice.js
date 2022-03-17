@@ -84,7 +84,6 @@ const gameSlice = createSlice({
 
     builder.addCase(loadSession.fulfilled, (state, action) => {
       if (action.payload !== 500) {
-        console.log(action.payload);
         state.sessionStatus.active = true;
         state.sessionStatus.name = action.payload.name;
         state.sessionStatus.id = action.payload.id;

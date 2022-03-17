@@ -35,7 +35,6 @@ const LoginUser = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     dispatch(logInUser({ username, password }));
   };
 
@@ -45,33 +44,44 @@ const LoginUser = () => {
 
   return (
     <div className="app-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <label>
-          Email:
-          <input
-            type="text"
-            name="username"
-            onChange={handleChange}
-            value={username}
-          ></input>
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            onChange={handleChange}
-            value={password}
-          ></input>
-        </label>
-        <button className="form-button" type="submit">
-          Login
-        </button>
-      </form>
-      <p>New to the site?</p>
-      <Link className="flow-link" to="/register">
-        Register Here
-      </Link>
+      <h2 className="app-title">Login or Sign-up</h2>
+      <table className="login-form" id="login">
+        <tr>
+          <td>Email:</td>
+          <td>
+            <input
+              type="text"
+              name="username"
+              onChange={handleChange}
+              value={username}
+            ></input>
+          </td>
+          <td>New to the site?</td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td>
+            <input
+              type="password"
+              name="password"
+              onChange={handleChange}
+              value={password}
+            ></input>
+          </td>
+          <td>
+            <Link className="flow-link" to="/register">
+              Register Here
+            </Link>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button className="form-button" onClick={handleSubmit}>
+              Login
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
   );
 };

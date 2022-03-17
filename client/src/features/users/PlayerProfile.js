@@ -101,33 +101,51 @@ const PlayerProfile = () => {
         </div>
       ) : null}
       <h3 className="app-sub-title">Edit your player profile</h3>
-      <p>The changes will be applied when you next join a session.</p>
-      <div className="login-form">
-        <label>
-          Display Name:
-          <input
-            type="text"
-            name="displayName"
-            onChange={handleChange}
-            value={display_name}
-          ></input>
-        </label>
-        <label>
-          Gender:
-          <select name="gender" onChange={handleChange} value={gender}>
-            <option value="M">M</option>
-            <option value="F">F</option>
-          </select>
-        </label>
-        <label>
-          Playing Hand:
-          <select name="handedness" onChange={handleChange} value={handedness}>
-            <option value="R">R</option>
-            <option value="L">L</option>
-          </select>
-        </label>
-        <button onClick={handleSubmitChange}>Submit Changes</button>
-      </div>
+      <p>
+        This information will be seen by players using the app to select games,
+        so make sure your display name is something they will recognise. Any
+        changes will be applied when you next join a session.
+      </p>
+      <table className="login-form">
+        <tr>
+          <td>Display Name:</td>
+          <td>
+            <input
+              type="text"
+              name="displayName"
+              onChange={handleChange}
+              value={display_name}
+            ></input>
+          </td>
+        </tr>
+        <tr>
+          <td>Gender:</td>
+          <td>
+            <select name="gender" onChange={handleChange} value={gender}>
+              <option value="M">M</option>
+              <option value="F">F</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Playing Hand:</td>
+          <td>
+            <select
+              name="handedness"
+              onChange={handleChange}
+              value={handedness}
+            >
+              <option value="R">R</option>
+              <option value="L">L</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colSpan={2}>
+            <button onClick={handleSubmitChange}>Submit Changes</button>
+          </td>
+        </tr>
+      </table>
     </div>
   );
 };

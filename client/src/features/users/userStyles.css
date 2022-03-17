@@ -19,14 +19,16 @@
 
 .login-form {
   width: 40%;
+  margin: 0 10%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 6px;
+}
+
+#login {
+  width: 50%;
   margin: 0 auto;
-}
-
-.login-form label {
-  display: block;
-  margin: 5px auto;
-}
-
-.login-form input {
-  margin-left: 8px;
+  margin-top: 20px;
 }
