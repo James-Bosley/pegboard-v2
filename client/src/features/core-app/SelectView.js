@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSessionStatus } from "../../components/games/gamesSlice";
 import { selectPlayers } from "../../components/players/playerSlice";
@@ -9,6 +9,11 @@ const SelectView = () => {
   const session = useSelector(selectSessionStatus);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "game/gameOn" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [players]);
 
   players = players.slice(0, 8);
   players = players.filter((plr) => plr !== null);
@@ -117,7 +122,6 @@ const SelectView = () => {
       [...pairA, ...pairB].map((player) => {
         return dispatch({ type: "player/selectPlayer", payload: player });
       });
-      dispatch({ type: "game/gameOn" });
       setPairA([]);
       setPairB([]);
     }
@@ -129,7 +133,10 @@ const SelectView = () => {
         <p className="placeholder">Add players to begin choosing games</p>
       ) : (
         <div className="selectview-container">
-          <p>{players[0].display_name} to choose game from first 9 players</p>
+          <p>
+            <strong>{players[0].display_name}</strong> to choose game from first
+            9 players
+          </p>
           <div
             data-dropvalue="queue"
             className="queue-container"

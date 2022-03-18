@@ -34,7 +34,7 @@ const ActiveSession = () => {
     }
   };
 
-  const addVisitor = () => {
+  const handleAddVisitor = () => {
     const player = {
       id: v4(),
       display_name: display_name + " (Visitor)",
@@ -42,6 +42,11 @@ const ActiveSession = () => {
       handedness,
     };
     dispatch({ type: "player/addPlayer", payload: player });
+    setDisplayName("");
+  };
+
+  const handleRemovePlayer = (id) => {
+    dispatch({ type: "player/removePlayer", payload: { id } });
   };
 
   const handleDeactivate = ({ target }) => {
@@ -55,10 +60,31 @@ const ActiveSession = () => {
   return (
     <div>
       <h2 className="app-title">Manage Active Session - {session.name}</h2>
-      <h3 className="app-sub-title">Remove a player</h3>
-      <div></div>
+      {players.length > 0 ? (
+        <div>
+          <h3 className="app-sub-title">Remove a player</h3>
+          <div>
+            {players.map((player) => {
+              return (
+                <p key={player.id} className="inline-paragraph plr-box">
+                  {player.display_name}{" "}
+                  <sup
+                    className="delete-x"
+                    onClick={() => handleRemovePlayer(player.id)}
+                  >
+                    x
+                  </sup>
+                </p>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
       <h3 className="app-sub-title">Add a visitor</h3>
-      <p>Enter visitors details</p>
+      <p>
+        Enter visitors details. Their data will not be stored beyond this
+        session.
+      </p>
       <table className="login-form">
         <tr>
           <td>Display Name:</td>
@@ -95,7 +121,7 @@ const ActiveSession = () => {
         </tr>
         <tr>
           <td colSpan={2}>
-            <button onClick={addVisitor}>Create Visitor</button>
+            <button onClick={handleAddVisitor}>Create Visitor</button>
           </td>
         </tr>
       </table>

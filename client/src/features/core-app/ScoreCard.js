@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { gameOver } from "../../components/games/gamesSlice";
 
@@ -71,11 +71,23 @@ const ScoreCard = ({ data }) => {
       delete gameData.pairA;
       delete gameData.pairB;
       dispatch(gameOver(gameData));
-      dispatch({ type: "game/gameOn" });
     } else {
       alert("Invalid Score");
     }
   };
+
+  useEffect(() => {
+    const listener = (e) => {
+      if (e.code === "Enter" || e.code === "NumpadEnter") {
+        e.preventDefault();
+        handleSubmitScore();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  });
 
   return (
     <div className="scorecard-container">
@@ -89,11 +101,7 @@ const ScoreCard = ({ data }) => {
           value={pairAScore}
         ></input>
       </div>
-      <div className="score-divider">
-        <button className="select-button" onClick={handleSubmitScore}>
-          Submit Score
-        </button>
-      </div>
+      <div className="score-divider" />
       <div className="score-input-container">
         <input
           className="score-input"
@@ -103,6 +111,11 @@ const ScoreCard = ({ data }) => {
           onChange={handleChange}
           value={pairBScore}
         ></input>
+      </div>
+      <div className="score-button">
+        <button className="select-button" onClick={handleSubmitScore}>
+          Submit Score
+        </button>
       </div>
     </div>
   );

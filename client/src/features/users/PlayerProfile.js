@@ -6,6 +6,7 @@ import {
   selectSelectedPlayers,
 } from "../../components/players/playerSlice";
 import { alterPlayer, selectUser } from "../../components/user/userSlice";
+import PromptBox from "../nav/PromptBox";
 
 const PlayerProfile = () => {
   const user = useSelector(selectUser);
@@ -19,6 +20,7 @@ const PlayerProfile = () => {
   const [display_name, setDisplayName] = useState(user.player.display_name);
   const [gender, setGender] = useState(user.player.gender);
   const [handedness, setHandedness] = useState(user.player.handedness);
+  const [promptBox, setPromptBox] = useState(false);
 
   const handleChange = ({ target }) => {
     switch (target.name) {
@@ -60,6 +62,7 @@ const PlayerProfile = () => {
 
   const handleAddToSession = () => {
     dispatch({ type: "player/addPlayer", payload: user.player });
+    setPromptBox(true);
   };
 
   const handleRemoveFromSession = () => {
@@ -91,6 +94,14 @@ const PlayerProfile = () => {
             {session.name}
           </button>
         </div>
+      ) : null}
+      {promptBox ? (
+        <PromptBox
+          env="success-logout"
+          question="You have been added to the session. Would you like to log out?"
+          redirect={{ success: "/app/select", failure: null }}
+          removePrompt={() => setPromptBox(false)}
+        />
       ) : null}
       {players.filter((player) => player.id === user.player.id).length > 0 ? (
         <div>

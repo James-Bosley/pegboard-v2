@@ -10,6 +10,16 @@
   font-size: 80px;
 }
 
+.toggle-banner {
+  top: 5px;
+  left: 5px;
+  position: absolute;
+}
+
+.toggle-banner:hover {
+  cursor: pointer;
+}
+
 .links {
   display: flex;
   justify-content: space-evenly;
@@ -39,4 +49,32 @@
 .footer {
   margin-top: 100px;
   text-align: center;
+}
+
+.prompt-box {
+  height: 100px;
+  width: 300px;
+  background-color: lightblue;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%);
+  border: 2px solid grey;
+  border-radius: 20px;
+  text-align: center;
+  z-index: 9999;
+}
+
+.prompt-box button:not(:first-child) {
+  margin-right: 10px;
+}
+
+.cover-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
 }

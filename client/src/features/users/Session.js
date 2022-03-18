@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import {
@@ -6,12 +6,15 @@ import {
   selectSessionStatus,
 } from "../../components/games/gamesSlice";
 import { selectUser, checkUserSession } from "../../components/user/userSlice";
+import PromptBox from "../nav/PromptBox";
 import ActiveSession from "./ActiveSession";
 
 const Session = () => {
   const user = useSelector(selectUser);
   const session = useSelector(selectSessionStatus);
   const dispatch = useDispatch();
+
+  const [promptBox, setPromptBox] = useState();
 
   useEffect(() => {
     dispatch(checkUserSession());
@@ -20,6 +23,7 @@ const Session = () => {
 
   const handleActivate = ({ target }) => {
     dispatch(loadSession(target.value));
+    setPromptBox(true);
   };
 
   if (!user) {
@@ -28,6 +32,15 @@ const Session = () => {
 
   return (
     <div className="app-container">
+      {promptBox ? (
+        <PromptBox
+          env="join-session"
+          question="Would you like to join the session?"
+          redirect={{ success: "/app/select", failure: null }}
+          removePrompt={() => setPromptBox(false)}
+          payload={user.player}
+        />
+      ) : null}
       {session.active ? (
         <ActiveSession />
       ) : (

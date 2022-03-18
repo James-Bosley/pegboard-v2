@@ -7,8 +7,6 @@
 }
 
 .sessions-list-container {
-  width: 20%;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
 }
@@ -31,4 +29,19 @@ td {
   width: 50%;
   margin: 0 auto;
   margin-top: 20px;
+}
+
+.plr-box {
+  background-color: lightgray;
+  padding: 6px;
+  padding-top: 4px;
+  border-radius: 10px;
+}
+
+.plr-box:not(:first-child) {
+  margin-left: 15px;
+}
+
+.delete-x:hover {
+  cursor: pointer;
 }

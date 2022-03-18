@@ -34,9 +34,22 @@ const LoginUser = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     dispatch(logInUser({ username, password }));
   };
+
+  useEffect(() => {
+    const listener = (e) => {
+      if (e.code === "Enter" || e.code === "NumpadEnter") {
+        e.preventDefault();
+        handleSubmit();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  });
 
   if (user) {
     return <Navigate to="/user/profile" replace />;
