@@ -1,10 +1,11 @@
 import React from "react";
 
 const HomePage = () => {
-
   return (
-    <p>HOMEPAGE</p>
-  )
+    <div className="app-container">
+      <p>HOMEPAGE for PegBoard</p>
+    </div>
+  );
 };
 
 export default HomePage;

@@ -1,0 +1,150 @@
+.app-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.app-title {
+  font-family: "Kanit", sans-serif;
+  font-size: 30px;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.app-sub-title {
+  font-family: "Kanit", sans-serif;
+  font-size: 22px;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.app-container .links {
+  width: 80%;
+  margin: 15px auto;
+}
+
+.app-link {
+  font-size: 20px;
+}
+
+.selectview-container {
+  position: relative;
+}
+
+.placeholder {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.queue-container {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.player-card {
+  text-align: center;
+  line-height: 100px;
+  margin: 5px;
+  min-height: 100px;
+  max-height: 100px;
+  min-width: 100px;
+  flex-grow: 1;
+  border-radius: 15px;
+}
+
+.dropzone-container {
+  display: flex;
+}
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: lightgrey;
+  min-height: 200px;
+  width: 45%;
+  margin: 0 auto;
+  padding: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.dropzone p {
+  padding: 5px;
+  margin: 0;
+}
+
+.select-button {
+  display: block;
+  margin: 5px auto;
+}
+
+.game-card-container {
+  width: 60%;
+  min-height: 100px;
+  padding: 8px;
+  margin: 10px auto;
+  border: 1px solid lightgray;
+  border-radius: 15px;
+}
+
+.pair-container {
+  display: inline-block;
+  vertical-align: top;
+  width: 40%;
+}
+
+.divider {
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+}
+
+.pair-container .player-card {
+  min-height: 75px;
+  max-height: 75px;
+  line-height: 75px;
+}
+
+.scorecard-container {
+  margin-top: 25px;
+  padding-bottom: 5px;
+  height: 35px;
+}
+
+.scorecard-title {
+  text-align: center;
+  margin: 0;
+}
+
+.score-input-container {
+  width: 40%;
+  display: inline-block;
+}
+
+.score-divider {
+  width: 20%;
+  display: inline-block;
+}
+
+.score-input {
+  display: block;
+  width: 40%;
+  margin: 0 auto;
+  position: relative;
+  bottom: 20px;
+  height: 25px;
+  text-align: center;
+}
+
+.score-button {
+  position: relative;
+  bottom: 30px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

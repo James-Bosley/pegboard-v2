@@ -1,25 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectVenue } from "../../components/games/gamesSlice";
+import { selectSessionStatus } from "../../components/games/gamesSlice";
 import { selectUser } from "../../components/user/userSlice";
+import "./navStyles.css";
 
 const NavBar = () => {
-
-  const venue = useSelector(selectVenue);
   const user = useSelector(selectUser);
+  const session = useSelector(selectSessionStatus);
+
+  const [showBanner, setShowBanner] = useState(true);
+
+  const toggleBanner = () => {
+    if (showBanner) {
+      setShowBanner(false);
+    } else {
+      setShowBanner(true);
+    }
+  };
 
   return (
-    <div className='nav'>
-      <h1>PegBoard</h1>
-      <div className='links'>
-        <Link to='/'>Home</Link>
-        <Link to='/app'>PegBoard App</Link>
-        {venue ? <Link to='/venue-info'>Venue</Link> : <Link to='/login/venue'>Venue Login</Link>}
-        {user ? <Link to='/profile'>Profile</Link> : <Link to='/login/user'>Login/Register</Link>}
-      </div>
+    <div className="nav">
+      <button className="toggle-banner" onClick={toggleBanner}>
+        {showBanner ? <span>Hide</span> : <span>Show</span>} Menu
+      </button>
+      {showBanner ? (
+        <div>
+          <h1 className="banner">PegBoard</h1>
+          <div className="links">
+            <Link className="nav-link" to="/">
+              Homepage
+            </Link>
+            {session.active ? (
+              <Link className="nav-link" to="/app/select">
+                PegBoard App
+              </Link>
+            ) : null}
+            <Link className="nav-link" to="/venue">
+              Search Venues
+            </Link>
+            {user && user.info.access_level === "session_rep" ? (
+              <Link className="nav-link" to="/session">
+                Manage Session
+              </Link>
+            ) : null}
+            {user ? (
+              <Link className="nav-link" to="user/profile">
+                {user.info.first_name}'s Profile
+              </Link>
+            ) : (
+              <Link className="nav-link" to="user/login">
+                Login/Register
+              </Link>
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
-  )
+  );
 };
 
 export default NavBar;

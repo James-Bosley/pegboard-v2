@@ -1,26 +1,116 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+export const checkUserSession = createAsyncThunk(
+  "user/checkSession",
+  async (input, thunkAPI) => {
+    const response = await fetch(`/v1/user/checksession`);
+    if (response.status === 401) {
+      return 401;
+    }
+    const user = await response.json();
+    return user;
+  }
+);
+
+export const logInUser = createAsyncThunk(
+  "user/logIn",
+  async (input, thunkAPI) => {
+    const response = await fetch(`/v1/user/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: input.username,
+        password: input.password,
+      }),
+    });
+    if (response === 401) {
+      return response;
+    }
+    const user = await response.json();
+    return user;
+  }
+);
+
+export const logOutUser = createAsyncThunk(
+  "user/logOut",
+  async (input, thunkAPI) => {
+    const response = await fetch("/v1/user/logout");
+    return response.status;
+  }
+);
+
+export const alterPlayer = createAsyncThunk(
+  "user/alterPlayer",
+  async (input, thunkAPI) => {
+    const response = await fetch("/v1/user/player", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
+    if (response === 500) {
+      return response;
+    }
+    const player = await response.json();
+    return player;
+  }
+);
 
 const initialState = {
   user: null,
-  userType: null
+  loggedInStatus: { loggedIn: false, message: null },
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: initialState,
-  reducers: {
-    logIn: (state, action) => {
-      //AUTH WITH API
-    },
-    logOut: (state, action) => {
-      state.user = null;
-      state.userType = null;
-    }
-  }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(checkUserSession.fulfilled, (state, action) => {
+      if (action.payload !== 401) {
+        state.user = action.payload;
+        state.loggedInStatus.loggedIn = true;
+        state.loggedInStatus.message = null;
+      } else {
+        state.user = null;
+        state.loggedInStatus.loggedIn = false;
+        state.loggedInStatus.message = "Session Expired";
+      }
+    });
+
+    builder.addCase(logInUser.pending, (state, action) => {
+      state.loggedInStatus.message = "Loading";
+    });
+
+    builder.addCase(logInUser.fulfilled, (state, action) => {
+      if (action.payload !== 401) {
+        state.user = action.payload;
+        state.loggedInStatus.loggedIn = true;
+        state.loggedInStatus.message = null;
+      }
+    });
+
+    builder.addCase(logInUser.rejected, (state, action) => {
+      state.loggedInStatus.message = "Authorization Failed";
+    });
+
+    builder.addCase(logOutUser.fulfilled, (state, action) => {
+      if (action.payload === 200) {
+        state.user = null;
+        state.loggedInStatus = { loggedIn: false, message: null };
+      } else {
+        state.loggedInStatus.message = "An Error Occurred";
+      }
+    });
+
+    builder.addCase(alterPlayer.fulfilled, (state, action) => {
+      if (action.payload !== 500) {
+        state.user.player = action.payload;
+      }
+    });
+  },
 });
 
-export const { logIn, logOut } = userSlice.actions;
-
-export const selectUser = state => state.user.user;
+export const selectUser = (state) => state.user.user;
+export const selectUserStatus = (state) => state.user.loggedInStatus;
 
 export default userSlice.reducer;

@@ -1,0 +1,47 @@
+.inline-paragraph {
+  display: inline-block;
+}
+
+.inline-button {
+  margin-left: 8px;
+}
+
+.sessions-list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.sessions-list-items {
+  margin: 5px auto;
+}
+
+.login-form {
+  width: 40%;
+  margin: 0 10%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 6px;
+}
+
+#login {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.plr-box {
+  background-color: lightgray;
+  padding: 6px;
+  padding-top: 4px;
+  border-radius: 10px;
+}
+
+.plr-box:not(:first-child) {
+  margin-left: 15px;
+}
+
+.delete-x:hover {
+  cursor: pointer;
+}

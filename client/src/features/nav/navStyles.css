@@ -1,0 +1,80 @@
+.nav {
+  width: 100%;
+}
+
+.banner {
+  width: 100%;
+  margin: 15px auto;
+  font-family: "Kanit", sans-serif;
+  text-align: center;
+  font-size: 80px;
+}
+
+.toggle-banner {
+  top: 5px;
+  left: 5px;
+  position: absolute;
+}
+
+.toggle-banner:hover {
+  cursor: pointer;
+}
+
+.links {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
+}
+
+.nav-link {
+  padding: 5px;
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+}
+
+.nav-link:hover {
+  font-weight: bold;
+}
+
+.flow-link {
+  font-size: 18px;
+  color: black;
+}
+
+.flow-link:hover {
+  font-weight: bold;
+}
+
+.footer {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.prompt-box {
+  height: 100px;
+  width: 300px;
+  background-color: lightblue;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%);
+  border: 2px solid grey;
+  border-radius: 20px;
+  text-align: center;
+  z-index: 9999;
+}
+
+.prompt-box button:not(:first-child) {
+  margin-right: 10px;
+}
+
+.cover-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
