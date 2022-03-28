@@ -19,7 +19,7 @@ const PlayingView = () => {
         <p className="placeholder">No Games</p>
       ) : (
         games.map((game) => {
-          return <GameCard key={game.id} data={game} enableScore />;
+          return <GameCard key={game.id} game={game} enableScore />;
         })
       )}
     </div>

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import ScoreCard from "./ScoreCard";
+import Game from "../../util/games";
 
 const GameCard = (props) => {
   const [gameComplete, setGameComplete] = useState(false);
+
+  const { pairA, pairB } = new Game(props.game).getPlayers();
 
   const toggleScorecard = () => {
     if (!gameComplete) {
@@ -20,10 +23,16 @@ const GameCard = (props) => {
     }
   };
 
+  const dividerStyle = () => {
+    if (pairA.length > 1) {
+      return { marginTop: "50px" };
+    }
+  };
+
   return (
     <div className="game-card-container">
       <div className="pair-container">
-        {props.data.pairA.map((player) => {
+        {pairA.map((player) => {
           return (
             <p
               key={player.id}
@@ -35,7 +44,7 @@ const GameCard = (props) => {
           );
         })}
       </div>
-      <div className="divider">
+      <div className="divider" style={dividerStyle()}>
         <p>- vs -</p>
         {props.enableScore ? (
           <button
@@ -48,7 +57,7 @@ const GameCard = (props) => {
         ) : null}
       </div>
       <div className="pair-container">
-        {props.data.pairB.map((player) => {
+        {pairB.map((player) => {
           return (
             <p
               key={player.id}
@@ -60,7 +69,7 @@ const GameCard = (props) => {
           );
         })}
       </div>
-      {gameComplete ? <ScoreCard data={props.data} /> : null}
+      {gameComplete ? <ScoreCard game={props.game} /> : null}
     </div>
   );
 };

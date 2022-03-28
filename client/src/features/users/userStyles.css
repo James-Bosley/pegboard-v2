@@ -38,8 +38,8 @@ td {
   border-radius: 10px;
 }
 
-.plr-box:not(:first-child) {
-  margin-left: 15px;
+.plr-box {
+  margin-right: 15px;
 }
 
 .delete-x:hover {
