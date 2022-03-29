@@ -71,8 +71,7 @@ const gameSlice = createSlice({
         state.inPlay.length < state.sessionStatus.courts
       ) {
         const game = state.queue.shift();
-        game.time_started = JSON.stringify(new Date());
-        game.game_status = "in play";
+        game.time_started = new Date().toJSON();
         state.inPlay.push(game);
       }
     },

@@ -37,18 +37,17 @@
 
 .queue-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   width: 100%;
 }
 
 .player-card {
   text-align: center;
-  line-height: 100px;
   margin: 5px;
+  padding: 37px 5px 0 5px;
   min-height: 100px;
   max-height: 100px;
-  min-width: 100px;
-  flex-grow: 1;
+  min-width: 120px;
   border-radius: 15px;
 }
 
@@ -102,9 +101,8 @@
 }
 
 .pair-container .player-card {
-  min-height: 75px;
-  max-height: 75px;
-  line-height: 75px;
+  min-height: 100px;
+  max-height: 100px;
 }
 
 .scorecard-container {
@@ -130,7 +128,7 @@
 
 .score-input {
   display: block;
-  width: 40%;
+  width: 42%;
   margin: 0 auto;
   position: relative;
   bottom: 20px;
@@ -147,4 +145,13 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@media only screen and (max-width: 1024px) {
+  .app-container {
+    width: 100%;
+  }
+  .game-card-container {
+    width: 80%;
+  }
 }

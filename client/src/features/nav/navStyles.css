@@ -52,8 +52,9 @@
 }
 
 .prompt-box {
-  height: 100px;
+  min-height: 100px;
   width: 300px;
+  padding-bottom: 10px;
   background-color: lightblue;
   position: absolute;
   top: 40%;

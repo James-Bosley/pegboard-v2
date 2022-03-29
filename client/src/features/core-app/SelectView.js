@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSessionStatus } from "../../components/games/gamesSlice";
 import { selectPlayers } from "../../components/players/playerSlice";
-import { v4 } from "uuid";
+import Game from "../../util/games";
 
 const SelectView = () => {
   let players = useSelector(selectPlayers);
@@ -15,8 +15,9 @@ const SelectView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [players]);
 
-  players = players.slice(0, 8);
   players = players.filter((plr) => plr !== null);
+  const activePlayers = players.slice(0, 9);
+  const extraPlayers = players.slice(9);
 
   const [pairA, setPairA] = useState([]);
   const [pairB, setPairB] = useState([]);
@@ -33,6 +34,9 @@ const SelectView = () => {
     } else {
       styles = { ...styles, backgroundColor: "pink" };
     }
+    if (env === "extra") {
+      styles = { ...styles, backgroundColor: "rgba(211,211,211,0.5)" };
+    }
     return styles;
   };
 
@@ -48,7 +52,7 @@ const SelectView = () => {
   };
 
   const handleDragEnter = ({ target }) => {
-    const targetPlayer = players.filter(
+    const targetPlayer = activePlayers.filter(
       (plr) => plr.id === dragItem.current
     )[0];
     switch (target.dataset.dropvalue) {
@@ -108,41 +112,36 @@ const SelectView = () => {
   };
 
   const handleGameAdd = () => {
-    let game = {};
-    if (pairA.length === pairB.length && pairA.length > 0) {
-      game.id = v4();
-      game.pairA = pairA;
-      game.pairB = pairB;
-      game.session_id = session.id;
-      game.game_status = "pending";
-      game.selected_by_player_id = players[0].id;
-      game.time_created = JSON.stringify(new Date());
-
-      dispatch({ type: "game/queueGame", payload: game });
-      [...pairA, ...pairB].map((player) => {
-        return dispatch({ type: "player/selectPlayer", payload: player });
-      });
-      setPairA([]);
-      setPairB([]);
-    }
+    const game = new Game({
+      session_id: session.id,
+      select_id: activePlayers[0].id,
+    });
+    game.setPairA(pairA);
+    game.setPairB(pairB);
+    dispatch({ type: "game/queueGame", payload: game.getState() });
+    [...pairA, ...pairB].map((player) => {
+      return dispatch({ type: "player/selectPlayer", payload: player });
+    });
+    setPairA([]);
+    setPairB([]);
   };
 
   return (
     <div className="outlet-container">
-      {!players.length > 0 ? (
+      {!activePlayers.length > 0 ? (
         <p className="placeholder">Add players to begin choosing games</p>
       ) : (
         <div className="selectview-container">
           <p>
-            <strong>{players[0].display_name}</strong> to choose game from first
-            9 players
+            <strong>{activePlayers[0].display_name}</strong> to choose game from
+            first 9 players
           </p>
           <div
             data-dropvalue="queue"
             className="queue-container"
             onDragEnter={handleDragEnter}
           >
-            {players.map((player) => {
+            {activePlayers.map((player) => {
               return (
                 <div
                   key={player.id}
@@ -205,6 +204,26 @@ const SelectView = () => {
           <button className="select-button" onClick={handleGameAdd}>
             Submit Game
           </button>
+          {extraPlayers.length > 0 ? (
+            <div>
+              <p>
+                Remaining players in the queue - not availiable for selection
+              </p>
+              <div id="extra-players" className="queue-container">
+                {extraPlayers.map((player) => {
+                  return (
+                    <div
+                      key={player.id}
+                      className="player-card"
+                      style={style(player, "extra")}
+                    >
+                      {player.display_name}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
         </div>
       )}
     </div>
