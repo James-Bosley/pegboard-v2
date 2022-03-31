@@ -81,7 +81,7 @@ const PlayerProfile = () => {
 
   return (
     <div>
-      <h2 className="app-title">Manage player - {user.player.display_name}</h2>
+      <h2 className="app-title">Player Profile - {user.player.display_name}</h2>
       {!session.active ? (
         <p>There is no active session. Ask your rep to start one.</p>
       ) : (
@@ -111,6 +111,11 @@ const PlayerProfile = () => {
           </button>
         </div>
       ) : null}
+      <h3 className="app-sub-title">Reports</h3>
+      <p className="inline-paragraph">
+        Individual player report for {user.player.display_name} -{" "}
+      </p>
+      <button className="inline-button">Download Report</button>
       <h3 className="app-sub-title">Edit your player profile</h3>
       <p>
         This information will be seen by players using the app to select games,

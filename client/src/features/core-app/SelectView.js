@@ -145,7 +145,7 @@ const SelectView = () => {
               return (
                 <div
                   key={player.id}
-                  className="player-card"
+                  className="player-card draggable-card"
                   data-dropvalue="queue"
                   draggable={handleDraggable(player)}
                   style={style(player, "queue")}
@@ -168,7 +168,7 @@ const SelectView = () => {
                 return (
                   <div
                     key={player.id}
-                    className="player-card"
+                    className="player-card draggable-card"
                     data-dropvalue="pairA"
                     draggable
                     style={style(player)}
@@ -189,7 +189,7 @@ const SelectView = () => {
                 return (
                   <div
                     key={player.id}
-                    className="player-card"
+                    className="player-card draggable-card"
                     data-dropvalue="pairB"
                     draggable
                     style={style(player)}

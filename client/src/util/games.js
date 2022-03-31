@@ -42,6 +42,12 @@ class Game {
     getPlayers() {
         return { pairA: this.pairA, pairB: this.pairB };
     }
+    genderSort(players) {
+        if (players.length > 1 && players[0].gender === "M" && players[1].gender === "F") {
+            return players.reverse();
+        }
+        return players;
+    }
     startGame() {
         this.game_status = "active";
         this.time_started = new Date().toJSON();
@@ -91,7 +97,7 @@ class Game {
                 win_score: this.win_score,
                 lose_score: this.lose_score,
             },
-            playersToEnqueue: [...this.winners, ...this.losers],
+            playersToEnqueue: [...this.genderSort([...this.winners]), ...this.genderSort([...this.losers])],
         };
     }
 }

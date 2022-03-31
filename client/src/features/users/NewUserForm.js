@@ -12,28 +12,15 @@ const NewUserForm = () => {
   const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
-    switch (target.name) {
-      case "first_name":
-        setFirstName(target.value);
-        break;
-      case "last_name":
-        setLastName(target.value);
-        break;
-      case "email_address":
-        setEmail(target.value);
-        break;
-      case "phone_number":
-        setTelephone(target.value);
-        break;
-      case "date_of_birth":
-        setBirthDate(target.value);
-        break;
-      case "password":
-        setPassword(target.value);
-        break;
-      default:
-        return null;
-    }
+    const options = {
+      first_name: setFirstName,
+      last_name: setLastName,
+      email_address: setEmail,
+      phone_number: setTelephone,
+      date_of_birth: setBirthDate,
+      password: setPassword,
+    };
+    options[target.name](target.value);
   };
 
   const userTemplate = () => {
