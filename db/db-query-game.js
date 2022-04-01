@@ -6,7 +6,8 @@ const gameQueries = {
       const newGame = await db("games").insert(game, ["id"]);
       return newGame[0].id;
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
     }
   },
 };

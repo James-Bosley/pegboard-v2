@@ -19,7 +19,8 @@ const sessionQueries = {
         return newSession;
       }
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
     }
   },
 };

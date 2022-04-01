@@ -79,6 +79,14 @@ const PlayerProfile = () => {
     dispatch(alterPlayer(newPlayer));
   };
 
+  const getReport = async () => {
+    if (process.env.NODE_ENV === "production") {
+      fetch("/v1/report/individual");
+    } else {
+      window.open("http://localhost:3001/v1/report/individual");
+    }
+  };
+
   return (
     <div>
       <h2 className="app-title">Player Profile - {user.player.display_name}</h2>
@@ -115,7 +123,9 @@ const PlayerProfile = () => {
       <p className="inline-paragraph">
         Individual player report for {user.player.display_name} -{" "}
       </p>
-      <button className="inline-button">Download Report</button>
+      <button className="inline-button" onClick={getReport}>
+        Download Report
+      </button>
       <h3 className="app-sub-title">Edit your player profile</h3>
       <p>
         This information will be seen by players using the app to select games,

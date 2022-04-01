@@ -1,17 +1,21 @@
 const express = require("express");
 const passport = require("../passport-config");
 const db = require("../db/db-query-user");
-const ensureLogIn = require("connect-ensure-login").ensureLoggedIn;
+const ensureLoggedIn = require("../util/authCheck").ensureLoggedIn;
 
 const userRouter = express.Router();
-const ensureLoggedIn = ensureLogIn("/v1/error");
 
+// Handles login requests. Success attaches user to req.user and starts a session.
 userRouter.post(
   "/login",
   passport.authenticate("local", { failureMessage: true }),
   async (req, res) => {
-    const userData = await db.userData(req.user.id);
-    res.json(userData);
+    // Retrieves and sends constructed representation of the user and their permissions.
+    const data = await db.userData(req.user.id);
+    if (data) {
+      return res.json(data);
+    }
+    res.sendStatus(500);
   }
 );
 
@@ -20,19 +24,28 @@ userRouter.get("/logout", (req, res) => {
   res.sendStatus(200);
 });
 
+// Handles new user requests.
 userRouter.post("/register", async (req, res) => {
-  const newUser = await db.registerUser(req.body);
-  res.sendStatus(newUser);
+  const data = await db.registerUser(req.body);
+  res.sendStatus(data || 500);
 });
 
+// Handles client side checks to ensure the session has not expired.
 userRouter.get("/checksession", ensureLoggedIn, async (req, res) => {
-  const userData = await db.userData(req.user.id);
-  res.json(userData);
+  const data = await db.userData(req.user.id);
+  if (data) {
+    return res.json(data);
+  }
+  res.sendStatus(500);
 });
 
+// Handles updates to the player profile owned by the logged in user.
 userRouter.put("/player", ensureLoggedIn, async (req, res) => {
-  const playerData = await db.updatePlayer(req.body);
-  res.json(playerData);
+  const data = await db.updatePlayer(req.body);
+  if (data) {
+    return res.json(data);
+  }
+  res.sendStatus(500);
 });
 
 module.exports = userRouter;

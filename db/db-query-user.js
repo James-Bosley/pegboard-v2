@@ -39,8 +39,10 @@ const userQueries = {
       if (user[0].id) {
         return 201;
       }
+      return null;
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
     }
   },
 
@@ -110,7 +112,8 @@ const userQueries = {
       }
       return user;
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
     }
   },
   updatePlayer: async (newPlayer) => {
@@ -125,7 +128,8 @@ const userQueries = {
       );
       return player[0];
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
     }
   },
 };

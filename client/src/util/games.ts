@@ -1,5 +1,7 @@
 import { v4 } from "uuid";
 
+// Written in .ts for learning purposes. Transpiled into --target es2022.
+
 interface Player {
   id: number | string,
   display_name: string,
@@ -22,6 +24,7 @@ interface Game {
   lose_score: number,
 }
 
+// Game class aims to abstract manipulations to game state away from app component logic.
 class Game {
   constructor (props) {
     this.id = props.id || v4();
@@ -64,6 +67,7 @@ class Game {
   getPlayers() {
     return { pairA: this.pairA, pairB: this.pairB };
     }
+  // Enforces common convention of placing ladies ahead of men when returned to the queue.  
   genderSort(players: Array<Player>) {
     if (players.length > 1 && players[0].gender === "M" && players[1].gender === "F") {
       return players.reverse();
@@ -74,6 +78,7 @@ class Game {
     this.game_status = "active";
     this.time_started = new Date().toJSON();
   }
+  // Sets final game state in preparation for transmission.
   setScore(pairAScore: number, pairBScore: number) {
     const options = {A: this.pairA, B: this.pairB};
     const [ winner, loser, winscore, losescore ] = pairAScore > pairBScore ? ["A", "B", pairAScore, pairBScore] : ["B", "A", pairBScore, pairAScore];
@@ -83,6 +88,7 @@ class Game {
     this.lose_score = losescore;
     this.game_status = "completed"
   }
+  // Data structured to enable serialization of Game. The object can be passed to class constructor to restore state.
   getState() {
     return {
       id: this.id,
@@ -99,6 +105,7 @@ class Game {
       lose_score: this.lose_score, 
     }
   }
+  // Data is structured to be accepted by the database.
   getSummary() {
     if (!this.winners) {
       return "use .setScore(pairA, pairB) first.";

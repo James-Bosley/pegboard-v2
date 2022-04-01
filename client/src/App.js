@@ -29,6 +29,7 @@ function App() {
         <Route path="user/login" element={<LoginUser />} />
         <Route path="user/profile" element={<Profile />} />
         <Route path="register" element={<NewUserForm />} />
+        <Route path="*" element={<AppShell />} />
       </Routes>
       <Footer />
     </Router>

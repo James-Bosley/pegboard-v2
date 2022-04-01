@@ -1,25 +1,21 @@
 const express = require("express");
-const passport = require("../passport-config");
 const db = require("../db/db-query-session");
-const ensureLogIn = require("connect-ensure-login").ensureLoggedIn;
+const ensureLoggedIn = require("../util/authCheck").ensureLoggedIn;
+const checkSessionRep = require("../util/authCheck").checkSessionRep;
 
 const sessionRouter = express.Router();
-const ensureLoggedIn = ensureLogIn("/v1/error");
 
-const checkAuthLevel = (req, res, next) => {
-  if (req.user.access_level === "session_rep") {
-    return next();
-  }
-  res.status(404).send("Unauthorized");
-};
-
+// Changes session state.
 sessionRouter.put(
   "/activate/:id",
   ensureLoggedIn,
-  checkAuthLevel,
+  checkSessionRep,
   async (req, res) => {
     const data = await db.setActiveSessionStatus(req.params.id, req.body);
-    res.json(data);
+    if (data) {
+      return res.json(data);
+    }
+    res.sendStatus(500);
   }
 );
 
