@@ -1,5 +1,7 @@
 const express = require("express");
-const db = require("../db/db-query-report");
+const individualReport = require("../reports/individualReport");
+const sessionReport = require("../reports/sessionReport");
+const venueReport = require("../reports/venueReport");
 const { ensureLoggedIn, checkReportAccess } = require("../util/authCheck");
 
 // Handles requests for reports based on path. Authorization is checked for each request.
@@ -10,7 +12,7 @@ reportRouter.get(
   ensureLoggedIn,
   checkReportAccess,
   async (req, res) => {
-    const data = await db.individualReport(req.user.id);
+    const data = await individualReport(req.user.id);
     if (typeof data === "string") {
       return res.download(data);
     }
@@ -23,7 +25,7 @@ reportRouter.get(
   ensureLoggedIn,
   checkReportAccess,
   async (req, res) => {
-    const data = await db.sessionReport(req.query.id);
+    const data = await sessionReport(req.user.id, req.query.id);
     if (typeof data === "string") {
       return res.download(data);
     }
@@ -36,7 +38,7 @@ reportRouter.get(
   ensureLoggedIn,
   checkReportAccess,
   async (req, res) => {
-    const data = await db.venueReport(req.query.id);
+    const data = await venueReport(req.user.id, req.query.id);
     if (typeof data === "string") {
       return res.download(data);
     }

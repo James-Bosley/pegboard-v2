@@ -1,6 +1,7 @@
 const db = require("./db-config");
 
 const gameQueries = {
+  // Completed games are stored in the database.
   addGame: async (game) => {
     try {
       const newGame = await db("games").insert(game, ["id"]);

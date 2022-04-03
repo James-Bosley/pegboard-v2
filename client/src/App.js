@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./features/nav/NavBar";
 import HomePage from "./features/nav/HomePage";
-import AppShell from "./features/core-app/AppShell";
+import AppContainer from "./features/core-app/AppContainer";
 import WaitView from "./features/core-app/WaitView";
 import SelectView from "./features/core-app/SelectView";
 import PlayingView from "./features/core-app/PlayingView";
@@ -19,7 +19,8 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="app" element={<AppShell />}>
+        <Route path="app" element={<AppContainer />}>
+          {/* Renders at <Outlet /> inside <AppContainer /> based on path. */}
           <Route path="select" element={<SelectView />} />
           <Route path="waiting" element={<WaitView />} />
           <Route path="playing" element={<PlayingView />} />
@@ -29,7 +30,8 @@ function App() {
         <Route path="user/login" element={<LoginUser />} />
         <Route path="user/profile" element={<Profile />} />
         <Route path="register" element={<NewUserForm />} />
-        <Route path="*" element={<AppShell />} />
+        {/* Catches any incorrect paths, and renders the main App. */}
+        <Route path="*" element={<AppContainer />} />
       </Routes>
       <Footer />
     </Router>
