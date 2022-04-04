@@ -6,11 +6,11 @@ import AppContainer from "./features/core-app/AppContainer";
 import WaitView from "./features/core-app/WaitView";
 import SelectView from "./features/core-app/SelectView";
 import PlayingView from "./features/core-app/PlayingView";
-import Session from "./features/users/Session";
-import LoginUser from "./features/users/LoginUser";
-import Profile from "./features/users/Profile";
-import NewUserForm from "./features/users/NewUserForm";
-import VenueInfo from "./features/users/VenueInfo";
+import ManageSession from "./features/accounts/session/ManageSession";
+import LoginUser from "./features/accounts/users/LoginUser";
+import Profile from "./features/accounts/users/Profile";
+import NewUserForm from "./features/accounts/users/NewUserForm";
+import ClubInfo from "./features/accounts/venue/ClubInfo";
 import Footer from "./features/nav/Footer";
 
 function App() {
@@ -25,8 +25,8 @@ function App() {
           <Route path="waiting" element={<WaitView />} />
           <Route path="playing" element={<PlayingView />} />
         </Route>
-        <Route path="venue" element={<VenueInfo />} />
-        <Route path="session" element={<Session />} />
+        <Route path="club" element={<ClubInfo />} />
+        <Route path="session" element={<ManageSession />} />
         <Route path="user/login" element={<LoginUser />} />
         <Route path="user/profile" element={<Profile />} />
         <Route path="register" element={<NewUserForm />} />

@@ -27,8 +27,9 @@ const reportGenerator = (data) => {
       const filePath = path.resolve(
         __dirname,
         "../tempReports",
-        `${data.reportName}.pdf`
+        `${data.reportName} - ${data.reportId}.pdf`
       );
+
       doc.pipe(fs.createWriteStream(filePath));
 
       // Styles for document.
@@ -53,7 +54,7 @@ const reportGenerator = (data) => {
       });
 
       doc.end();
-
+      console.log(filePath);
       // Timeout allows time for content write to complete to prevent server returning incomplete file.
       setTimeout(() => {
         if (fs.existsSync(filePath)) {

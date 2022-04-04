@@ -36,8 +36,8 @@ const NavBar = () => {
                 PegBoard App
               </Link>
             ) : null}
-            <Link className="nav-link" to="/venue">
-              Search Venues
+            <Link className="nav-link" to="/club">
+              Search Clubs
             </Link>
             {user && user.info.access_level === "session_rep" ? (
               <Link className="nav-link" to="/session">

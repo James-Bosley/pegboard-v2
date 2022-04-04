@@ -1,6 +1,6 @@
 import React from "react";
 
-const SessionProfile = () => {
+const SessionAccess = () => {
   return (
     <div>
       <p>
@@ -11,4 +11,4 @@ const SessionProfile = () => {
   );
 };
 
-export default SessionProfile;
+export default SessionAccess;

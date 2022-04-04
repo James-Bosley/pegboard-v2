@@ -1,6 +1,6 @@
 import React from "react";
 
-const Venues = () => {
+const ClubInfo = () => {
   return (
     <div className="app-container">
       <p>This is a venue</p>
@@ -8,4 +8,4 @@ const Venues = () => {
   );
 };
 
-export default Venues;
+export default ClubInfo;

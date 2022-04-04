@@ -4,9 +4,12 @@ import { Navigate } from "react-router-dom";
 import {
   loadSession,
   selectSessionStatus,
-} from "../../components/games/gamesSlice";
-import { selectUser, checkUserSession } from "../../components/user/userSlice";
-import PromptBox from "../nav/PromptBox";
+} from "../../../components/games/gamesSlice";
+import {
+  selectUser,
+  checkUserSession,
+} from "../../../components/user/userSlice";
+import PromptBox from "../../nav/PromptBox";
 import ActiveSession from "./ActiveSession";
 
 const Session = () => {

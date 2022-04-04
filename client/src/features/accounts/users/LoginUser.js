@@ -5,8 +5,8 @@ import {
   checkUserSession,
   logInUser,
   selectUser,
-} from "../../components/user/userSlice";
-import "./userStyles.css";
+} from "../../../components/user/userSlice";
+import "../userStyles.css";
 
 const LoginUser = () => {
   const user = useSelector(selectUser);

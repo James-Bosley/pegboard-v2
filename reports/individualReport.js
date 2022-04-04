@@ -6,7 +6,7 @@ const individualReport = async (userId) => {
     const player = await db.getPlayer(userId);
     const report = await reportGenerator({
       reportName: `Individual Player Report - ${player.first_name} ${player.last_name}`,
-      reportId: player.display_name,
+      reportId: player.id,
       sections: [
         {
           title: "Player Profile",
