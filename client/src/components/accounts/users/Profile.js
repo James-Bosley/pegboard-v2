@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { selectSessionStatus } from "../../../components/games/gamesSlice";
+import { selectSessionStatus } from "../../../features/games/gamesSlice";
 import {
   checkUserSession,
   logOutUser,
   selectUser,
-} from "../../../components/user/userSlice";
+} from "../../../features/user/userSlice";
 import PromptBox from "../../nav/PromptBox";
 import PlayerProfile from "./PlayerProfile";
 import SessionAccess from "../session/SessionAccess";

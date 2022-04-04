@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import gameReducer from "../components/games/gamesSlice";
-import playerReducer from "../components/players/playerSlice";
-import userReducer from "../components/user/userSlice";
+import gameReducer from "../features/games/gamesSlice";
+import playerReducer from "../features/players/playerSlice";
+import userReducer from "../features/user/userSlice";
 import { loadState, saveState } from "./localStorage";
 import { throttle } from "lodash";
 

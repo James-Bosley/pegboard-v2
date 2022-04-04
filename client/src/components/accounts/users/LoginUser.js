@@ -5,7 +5,7 @@ import {
   checkUserSession,
   logInUser,
   selectUser,
-} from "../../../components/user/userSlice";
+} from "../../../features/user/userSlice";
 import "../userStyles.css";
 
 const LoginUser = () => {

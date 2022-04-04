@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { gameOver } from "../../components/games/gamesSlice";
+import { gameOver } from "../../features/games/gamesSlice";
 import Game from "../../util/games";
 
 const ScoreCard = (props) => {

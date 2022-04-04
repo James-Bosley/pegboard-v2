@@ -1,17 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBar from "./features/nav/NavBar";
-import HomePage from "./features/nav/HomePage";
-import AppContainer from "./features/core-app/AppContainer";
-import WaitView from "./features/core-app/WaitView";
-import SelectView from "./features/core-app/SelectView";
-import PlayingView from "./features/core-app/PlayingView";
-import ManageSession from "./features/accounts/session/ManageSession";
-import LoginUser from "./features/accounts/users/LoginUser";
-import Profile from "./features/accounts/users/Profile";
-import NewUserForm from "./features/accounts/users/NewUserForm";
-import ClubInfo from "./features/accounts/venue/ClubInfo";
-import Footer from "./features/nav/Footer";
+import NavBar from "./components/nav/NavBar";
+import HomePage from "./components/nav/HomePage";
+import AppContainer from "./components/core-app/AppContainer";
+import WaitView from "./components/core-app/WaitView";
+import SelectView from "./components/core-app/SelectView";
+import PlayingView from "./components/core-app/PlayingView";
+import ManageSession from "./components/accounts/session/ManageSession";
+import LoginUser from "./components/accounts/users/LoginUser";
+import Profile from "./components/accounts/users/Profile";
+import NewUserForm from "./components/accounts/users/NewUserForm";
+import ClubInfo from "./components/accounts/venue/ClubInfo";
+import Footer from "./components/nav/Footer";
 
 function App() {
   return (

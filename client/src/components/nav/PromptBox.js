@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logOutUser } from "../../components/user/userSlice";
+import { logOutUser } from "../../features/user/userSlice";
 
 const PromptBox = (props) => {
   const dispatch = useDispatch();

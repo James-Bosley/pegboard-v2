@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   endSession,
   selectSessionStatus,
-} from "../../../components/games/gamesSlice";
-import { selectPlayers } from "../../../components/players/playerSlice";
-import { checkUserSession } from "../../../components/user/userSlice";
+} from "../../../features/games/gamesSlice";
+import { selectPlayers } from "../../../features/players/playerSlice";
+import { checkUserSession } from "../../../features/user/userSlice";
 import { v4 } from "uuid";
 
 const ActiveSession = () => {

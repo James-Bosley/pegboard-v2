@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectQueue } from "../../components/games/gamesSlice";
+import { selectQueue } from "../../features/games/gamesSlice";
 import GameCard from "./GameCard";
 
 const WaitView = () => {

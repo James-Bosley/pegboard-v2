@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectSessionStatus } from "../../../components/games/gamesSlice";
+import { selectSessionStatus } from "../../../features/games/gamesSlice";
 import {
   selectPlayers,
   selectSelectedPlayers,
-} from "../../../components/players/playerSlice";
-import { alterPlayer, selectUser } from "../../../components/user/userSlice";
+} from "../../../features/players/playerSlice";
+import { alterPlayer, selectUser } from "../../../features/user/userSlice";
 import PromptBox from "../../nav/PromptBox";
 
 const PlayerProfile = () => {
