@@ -5,6 +5,22 @@ const checkSessionRep = require("../util/authCheck").checkSessionRep;
 
 const sessionRouter = express.Router();
 
+sessionRouter.get("/clubs", async (req, res) => {
+  const data = await db.getAllClubs();
+  if (data) {
+    return res.json(data);
+  }
+  res.sendStatus(500);
+});
+
+sessionRouter.get("/sessions", async (req, res) => {
+  const data = await db.getSessionsByClub(req.query.venue);
+  if (data) {
+    return res.json(data);
+  }
+  res.sendStatus(500);
+});
+
 // Changes session state.
 sessionRouter.put(
   "/activate/:id",

@@ -5,7 +5,8 @@ import {
   selectPlayers,
   selectSelectedPlayers,
 } from "../../../features/players/playerSlice";
-import { alterPlayer, selectUser } from "../../../features/user/userSlice";
+import { selectUser } from "../../../features/user/userSlice";
+import { alterPlayer } from "../../../util/asyncUserActions";
 import PromptBox from "../../nav/PromptBox";
 
 const PlayerProfile = () => {
@@ -133,44 +134,46 @@ const PlayerProfile = () => {
         changes will be applied when you next join a session.
       </p>
       <table className="login-form">
-        <tr>
-          <td>Display Name:</td>
-          <td>
-            <input
-              type="text"
-              name="displayName"
-              onChange={handleChange}
-              value={display_name}
-            ></input>
-          </td>
-        </tr>
-        <tr>
-          <td>Gender:</td>
-          <td>
-            <select name="gender" onChange={handleChange} value={gender}>
-              <option value="M">M</option>
-              <option value="F">F</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Playing Hand:</td>
-          <td>
-            <select
-              name="handedness"
-              onChange={handleChange}
-              value={handedness}
-            >
-              <option value="R">R</option>
-              <option value="L">L</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td colSpan={2}>
-            <button onClick={handleSubmitChange}>Submit Changes</button>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Display Name:</td>
+            <td>
+              <input
+                type="text"
+                name="displayName"
+                onChange={handleChange}
+                value={display_name}
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Gender:</td>
+            <td>
+              <select name="gender" onChange={handleChange} value={gender}>
+                <option value="M">M</option>
+                <option value="F">F</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Playing Hand:</td>
+            <td>
+              <select
+                name="handedness"
+                onChange={handleChange}
+                value={handedness}
+              >
+                <option value="R">R</option>
+                <option value="L">L</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={2}>
+              <button onClick={handleSubmitChange}>Submit Changes</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );

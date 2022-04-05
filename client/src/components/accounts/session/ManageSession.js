@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import {
-  loadSession,
-  selectSessionStatus,
-} from "../../../features/games/gamesSlice";
-import { selectUser, checkUserSession } from "../../../features/user/userSlice";
+import { selectSessionStatus } from "../../../features/games/gamesSlice";
+import { loadSession } from "../../../util/asyncGamesActions";
+import { selectUser } from "../../../features/user/userSlice";
+import { checkUserSession } from "../../../util/asyncUserActions";
 import PromptBox from "../../nav/PromptBox";
 import ActiveSession from "./ActiveSession";
 

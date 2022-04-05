@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { selectSessionStatus } from "../../../features/games/gamesSlice";
-import {
-  checkUserSession,
-  logOutUser,
-  selectUser,
-} from "../../../features/user/userSlice";
+import { selectUser } from "../../../features/user/userSlice";
+import { checkUserSession, logOutUser } from "../../../util/asyncUserActions";
 import PromptBox from "../../nav/PromptBox";
 import PlayerProfile from "./PlayerProfile";
 import SessionAccess from "../session/SessionAccess";
@@ -44,10 +41,11 @@ const Profile = () => {
           removePrompt={() => setPromptBox(false)}
         />
       ) : null}
+      <h2 className="app-title">{user.info.first_name}'s Profile</h2>
+      <p>Information about {user.info.first_name}...</p>
+      <button onClick={handleLogout}>Logout</button>
       <PlayerProfile />
       <SessionAccess />
-      <h2 className="app-title">{user.info.first_name}'s Profile</h2>
-      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };

@@ -24,6 +24,27 @@ const sessionQueries = {
       return null;
     }
   },
+  getAllClubs: async () => {
+    try {
+      const clubs = db("clubs").select();
+      return clubs;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+  getSessionsByClub: (clubId) => {
+    try {
+      const sessions = db("sessions")
+        .join("clubs", "sessions.venue_id", "=", "clubs.id")
+        .select("sessions.id", "sessions.name", "sessions.extra_info")
+        .where({ "clubs.id": clubId });
+      return sessions;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
 };
 
 module.exports = sessionQueries;

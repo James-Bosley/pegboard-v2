@@ -27,7 +27,10 @@ userRouter.get("/logout", (req, res) => {
 // Handles new user requests.
 userRouter.post("/register", async (req, res) => {
   const data = await db.registerUser(req.body);
-  res.sendStatus(data || 500);
+  if (data) {
+    return res.sendStatus(201);
+  }
+  res.sendStatus(500);
 });
 
 // Handles client side checks to ensure the session has not expired.
@@ -44,6 +47,15 @@ userRouter.put("/player", ensureLoggedIn, async (req, res) => {
   const data = await db.updatePlayer(req.body);
   if (data) {
     return res.json(data);
+  }
+  res.sendStatus(500);
+});
+
+// Submits session access request.
+userRouter.post("/accessRequest", ensureLoggedIn, async (req, res) => {
+  const data = await db.addAccessRequest(req.user.id, req.body);
+  if (data) {
+    return res.sendStatus(201);
   }
   res.sendStatus(500);
 });

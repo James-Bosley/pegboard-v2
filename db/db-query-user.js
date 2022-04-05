@@ -36,10 +36,7 @@ const userQueries = {
       newUser.password = hash;
 
       const user = await db("users").insert(newUser, ["id"]);
-      if (user[0].id) {
-        return 201;
-      }
-      return null;
+      return user[0].id;
     } catch (err) {
       console.log(err);
       return null;
@@ -128,6 +125,18 @@ const userQueries = {
         ["*"]
       );
       return player[0];
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+  addAccessRequest: async (user, requestData) => {
+    try {
+      requestData = { ...requestData, user_id: user };
+      const request = await db("access_requests").insert(requestData, [
+        "user_id",
+      ]);
+      return request[0].user_id;
     } catch (err) {
       console.log(err);
       return null;
