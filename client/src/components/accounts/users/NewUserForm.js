@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addNewUser } from "../../../util/api";
 
 const NewUserForm = () => {
   const [first_name, setFirstName] = useState("");
@@ -38,22 +39,13 @@ const NewUserForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const bodyData = userTemplate();
-    if (bodyData) {
-      const response = await fetch(`/v1/user/register`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bodyData),
-      });
-      if (response.status === 201) {
-        alert("Success! Please login to continue.");
-        navigate("/user/login");
-      } else {
-        alert("Error");
-      }
+    const userData = userTemplate();
+    const response = await addNewUser(userData);
+    if (response.status === 201) {
+      alert("Success! Please login to continue.");
+      navigate("/user/login");
+    } else {
+      alert("Error");
     }
   };
 

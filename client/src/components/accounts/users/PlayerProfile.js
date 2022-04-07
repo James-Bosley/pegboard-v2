@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectSessionStatus } from "../../components/games/gamesSlice";
+import { selectSessionStatus } from "../../../features/games/gamesSlice";
 import {
   selectPlayers,
   selectSelectedPlayers,
-} from "../../components/players/playerSlice";
-import { alterPlayer, selectUser } from "../../components/user/userSlice";
-import PromptBox from "../nav/PromptBox";
+} from "../../../features/players/playerSlice";
+import { selectUser } from "../../../features/user/userSlice";
+import { alterPlayer } from "../../../util/asyncUserActions";
+import PromptBox from "../../nav/PromptBox";
 
 const PlayerProfile = () => {
   const user = useSelector(selectUser);
@@ -79,6 +80,14 @@ const PlayerProfile = () => {
     dispatch(alterPlayer(newPlayer));
   };
 
+  const getReport = async () => {
+    if (process.env.NODE_ENV === "production") {
+      fetch("/v1/report/individual");
+    } else {
+      window.open("http://localhost:3001/v1/report/individual");
+    }
+  };
+
   return (
     <div>
       <h2 className="app-title">Player Profile - {user.player.display_name}</h2>
@@ -115,7 +124,9 @@ const PlayerProfile = () => {
       <p className="inline-paragraph">
         Individual player report for {user.player.display_name} -{" "}
       </p>
-      <button className="inline-button">Download Report</button>
+      <button className="inline-button" onClick={getReport}>
+        Download Report
+      </button>
       <h3 className="app-sub-title">Edit your player profile</h3>
       <p>
         This information will be seen by players using the app to select games,
@@ -123,44 +134,46 @@ const PlayerProfile = () => {
         changes will be applied when you next join a session.
       </p>
       <table className="login-form">
-        <tr>
-          <td>Display Name:</td>
-          <td>
-            <input
-              type="text"
-              name="displayName"
-              onChange={handleChange}
-              value={display_name}
-            ></input>
-          </td>
-        </tr>
-        <tr>
-          <td>Gender:</td>
-          <td>
-            <select name="gender" onChange={handleChange} value={gender}>
-              <option value="M">M</option>
-              <option value="F">F</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Playing Hand:</td>
-          <td>
-            <select
-              name="handedness"
-              onChange={handleChange}
-              value={handedness}
-            >
-              <option value="R">R</option>
-              <option value="L">L</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td colSpan={2}>
-            <button onClick={handleSubmitChange}>Submit Changes</button>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Display Name:</td>
+            <td>
+              <input
+                type="text"
+                name="displayName"
+                onChange={handleChange}
+                value={display_name}
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>Gender:</td>
+            <td>
+              <select name="gender" onChange={handleChange} value={gender}>
+                <option value="M">M</option>
+                <option value="F">F</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Playing Hand:</td>
+            <td>
+              <select
+                name="handedness"
+                onChange={handleChange}
+                value={handedness}
+              >
+                <option value="R">R</option>
+                <option value="L">L</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={2}>
+              <button onClick={handleSubmitChange}>Submit Changes</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );

@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, NavLink, Outlet } from "react-router-dom";
-import { selectSessionStatus } from "../../components/games/gamesSlice";
+import { selectSessionStatus } from "../../features/games/gamesSlice";
 
 import "./appStyles.css";
 
-const AppShell = () => {
+const AppContainer = () => {
   const session = useSelector(selectSessionStatus);
 
   const activeStyle = { fontWeight: "bold" };
@@ -47,4 +47,4 @@ const AppShell = () => {
   );
 };
 
-export default AppShell;
+export default AppContainer;

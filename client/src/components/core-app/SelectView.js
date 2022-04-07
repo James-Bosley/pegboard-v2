@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSessionStatus } from "../../components/games/gamesSlice";
-import { selectPlayers } from "../../components/players/playerSlice";
+import { selectSessionStatus } from "../../features/games/gamesSlice";
+import { selectPlayers } from "../../features/players/playerSlice";
 import Game from "../../util/games";
 
 const SelectView = () => {

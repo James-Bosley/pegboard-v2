@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logOutUser } from "../../components/user/userSlice";
+import { logOutUser } from "../../util/asyncUserActions";
 
 const PromptBox = (props) => {
   const dispatch = useDispatch();
@@ -24,7 +24,10 @@ const PromptBox = (props) => {
   };
 
   const handleNo = () => {
-    navigate(props.redirect.failure || props.removePrompt());
+    if (props.redirect.failure) {
+      return navigate(props.redirect.failure);
+    }
+    props.removePrompt();
   };
 
   return (

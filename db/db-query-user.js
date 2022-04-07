@@ -2,7 +2,7 @@ const db = require("./db-config");
 const bcrypt = require("bcrypt");
 
 const userQueries = {
-  // For User Authentication
+  // For user authentication and deserialization.
   findByUsername: async (username, callback) => {
     try {
       const user = await db("users")
@@ -28,7 +28,7 @@ const userQueries = {
     }
   },
 
-  // Add New User
+  // Add new user.
   registerUser: async (newUser) => {
     try {
       const saltRounds = 10;
@@ -36,15 +36,14 @@ const userQueries = {
       newUser.password = hash;
 
       const user = await db("users").insert(newUser, ["id"]);
-      if (user[0].id) {
-        return 201;
-      }
+      return user[0].id;
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
     }
   },
 
-  // Creates Structured User
+  // Creates structured user to be returned to the client.
   userData: async (userId) => {
     try {
       let user = {};
@@ -110,9 +109,11 @@ const userQueries = {
       }
       return user;
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
     }
   },
+  // Updates the player profile of the user.
   updatePlayer: async (newPlayer) => {
     try {
       const player = await db("players").where({ id: newPlayer.id }).update(
@@ -125,7 +126,20 @@ const userQueries = {
       );
       return player[0];
     } catch (err) {
-      return 500;
+      console.log(err);
+      return null;
+    }
+  },
+  addAccessRequest: async (user, requestData) => {
+    try {
+      requestData = { ...requestData, user_id: user };
+      const request = await db("access_requests").insert(requestData, [
+        "user_id",
+      ]);
+      return request[0].user_id;
+    } catch (err) {
+      console.log(err);
+      return null;
     }
   },
 };

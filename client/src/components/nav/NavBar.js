@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectSessionStatus } from "../../components/games/gamesSlice";
-import { selectUser } from "../../components/user/userSlice";
+import { selectSessionStatus } from "../../features/games/gamesSlice";
+import { selectUser } from "../../features/user/userSlice";
 import "./navStyles.css";
 
 const NavBar = () => {
@@ -36,8 +36,8 @@ const NavBar = () => {
                 PegBoard App
               </Link>
             ) : null}
-            <Link className="nav-link" to="/venue">
-              Search Venues
+            <Link className="nav-link" to="/club">
+              Search Clubs
             </Link>
             {user && user.info.access_level === "session_rep" ? (
               <Link className="nav-link" to="/session">

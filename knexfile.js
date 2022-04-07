@@ -7,10 +7,12 @@
 require("dotenv").config();
 const pg = require("pg");
 
+// Required for heroku deployment.
 if (process.env.DATABASE_URL) {
   pg.defaults.ssl = { rejectUnauthorized: false };
 }
 
+// Configures database access using PostgreSQL client.
 const sharedConfig = {
   client: "pg",
   migrations: { directory: "./db/migrations" },

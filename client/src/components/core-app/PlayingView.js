@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectInPlay } from "../../components/games/gamesSlice";
+import { selectInPlay } from "../../features/games/gamesSlice";
 import GameCard from "./GameCard";
 
 const PlayingView = () => {
